@@ -6,6 +6,9 @@
 #include <windows.h>
 #include <tchar.h>
 #include <stdio.h>
+#include <string>
+
+#include "FileTransformers.h"
 
 int _tmain(int argc, LPTSTR argv[])
 {
