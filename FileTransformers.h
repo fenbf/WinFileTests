@@ -14,7 +14,10 @@ public:
 		, m_blockSizeInBytes(blockSizeInBytes)
 	{ }
 
-	using TProcessFunc = bool(*) (uint8_t*, uint8_t*);
+	// inBuf, outBuf, sizeInBytes: transforms inBuf and writes into outBuf, 
+	// sizeInBytes should be the same as blockSizeInBytes, but might be smaller for the last block
+	using TProcessFunc = bool(*) (uint8_t*, uint8_t*, size_t); 
+
 	virtual bool Process(TProcessFunc func) = 0;
 
 protected:
