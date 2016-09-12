@@ -34,3 +34,10 @@ public:
 	virtual bool Process(TProcessFunc func);
 };
 
+class IoStreamFileTransformer : public FileTransformer
+{
+public:
+	using FileTransformer::FileTransformer; // inheriting constructor
+
+	virtual bool Process(TProcessFunc func);
+};

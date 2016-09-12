@@ -1,6 +1,12 @@
 #include "FileTransformers.h"
 #include <cstdio>
 #include <memory>
+#include <fstream>
+
+void PrintCannotOpenFile(std::wstring strFname)
+{
+	wprintf(L"Cannot open %s file!\n", strFname.c_str());
+}
 
 // stateless functor object for deleting FILE files
 struct FILEDeleter 
@@ -20,12 +26,13 @@ FILE_unique_ptr make_fopen(const wchar_t* fname, const wchar_t* mode)
 	auto err = _wfopen_s(&f, fname, mode); // by default it's buffered IO, 4k buffer
 	if (err != 0)
 	{
-		wprintf(L"Cannot open %s file!\n", fname);
+		PrintCannotOpenFile(fname);
 		return nullptr;
 	}
 
 	return FILE_unique_ptr(f);
 }
+
 
 ///////////////////////////////////////////////////////////////////////////////
 // StdioFileTransformer
@@ -48,12 +55,68 @@ bool StdioFileTransformer::Process(TProcessFunc func)
 	{
 		const auto numRead = fread_s(inBuf.get(), m_blockSizeInBytes, /*element size*/sizeof(uint8_t), m_blockSizeInBytes, pInputFilePtr.get());
 		
+		if (numRead == 0)
+		{
+			printf("Couldn't read block of data!\n");
+			return false;
+		}
+
 		if (!func(inBuf.get(), outBuf.get(), numRead))
 			break;
 
 		const auto numWritten = fwrite(outBuf.get(), sizeof(uint8_t), numRead, pOutputFilePtr.get());
 		if (numRead != numWritten)
 			printf("Problem in transforming the file: %d read vs %d (bytes) written\n", numRead, numWritten);
+
+		blockCount++;
+	}
+
+	wprintf(L"Transformed %d blocks from %s into %s\n", blockCount, m_strFirstFile.c_str(), m_strSecondFile.c_str());
+
+	return true;
+}
+
+///////////////////////////////////////////////////////////////////////////////
+// IoStreamFileTransformer
+
+bool IoStreamFileTransformer::Process(TProcessFunc func)
+{
+	std::ifstream inputStream(m_strFirstFile, std::wios::in | std::wios::binary);
+	if (inputStream.bad())
+	{
+		PrintCannotOpenFile(m_strFirstFile);
+		return false;
+	}
+
+	std::ofstream outputStream(m_strSecondFile, std::wios::out | std::wios::binary | std::wios::trunc);
+	if (outputStream.bad())
+	{
+		PrintCannotOpenFile(m_strSecondFile);
+		return false;
+	}
+
+	std::unique_ptr<uint8_t[]> inBuf(new uint8_t[m_blockSizeInBytes]);
+	std::unique_ptr<uint8_t[]> outBuf(new uint8_t[m_blockSizeInBytes]);
+
+	size_t blockCount = 0;
+	while (!inputStream.eof())
+	{
+		inputStream.read((char *)(inBuf.get()), m_blockSizeInBytes);
+
+		if (inputStream.bad())
+		{
+			printf("Couldn't read block of data!\n");
+			return false;
+		}
+
+		const auto numRead = inputStream.gcount();
+
+		if (!func(inBuf.get(), outBuf.get(), static_cast<size_t>(numRead)))
+			break;
+
+		outputStream.write((const char *)outBuf.get(), numRead);
+		if (outputStream.bad())
+			printf("Cannot write %d bytes into output\n", static_cast<size_t>(numRead));
 
 		blockCount++;
 	}
