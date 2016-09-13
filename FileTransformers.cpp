@@ -1,4 +1,8 @@
 #include "FileTransformers.h"
+
+#include "WINEXCLUDE.H"
+#include <windows.h>
+#include <tchar.h>
 #include <cstdio>
 #include <memory>
 #include <fstream>
@@ -33,6 +37,28 @@ FILE_unique_ptr make_fopen(const wchar_t* fname, const wchar_t* mode)
 	return FILE_unique_ptr(f);
 }
 
+// stateless functor object for deleting Win File files
+struct HANDLEDeleter
+{
+	void operator()(HANDLE handle)
+	{
+		if (handle != INVALID_HANDLE_VALUE)
+			CloseHandle(handle);
+	}
+};
+
+using WINFILE_unique_ptr = std::unique_ptr<void, HANDLEDeleter>;
+
+WINFILE_unique_ptr make_WINFILE_unique_ptr(HANDLE handle)
+{
+	if (handle == INVALID_HANDLE_VALUE)
+	{
+		printf("Cannot open file!\n");
+		return nullptr;
+	}
+
+	return WINFILE_unique_ptr(handle);
+}
 
 ///////////////////////////////////////////////////////////////////////////////
 // StdioFileTransformer
@@ -124,4 +150,51 @@ bool IoStreamFileTransformer::Process(TProcessFunc func)
 	wprintf(L"Transformed %d blocks from %s into %s\n", blockCount, m_strFirstFile.c_str(), m_strSecondFile.c_str());
 
 	return true;
+}
+
+///////////////////////////////////////////////////////////////////////////////
+// WinFileTransformer
+
+bool WinFileTransformer::Process(TProcessFunc func)
+{
+	auto hInputFile = make_WINFILE_unique_ptr(CreateFile(m_strFirstFile.c_str(), GENERIC_READ, /*shared mode*/0, /*security*/nullptr, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, /*template*/nullptr));
+	if (!hInputFile)
+		return false;
+
+	auto hOutputFile = make_WINFILE_unique_ptr(CreateFile(m_strSecondFile.c_str(), GENERIC_WRITE, /*shared mode*/0, /*security*/nullptr, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, /*template*/nullptr));
+
+	if (!hOutputFile)
+		return false;
+
+	std::unique_ptr<uint8_t[]> inBuf(new uint8_t[m_blockSizeInBytes]);
+	std::unique_ptr<uint8_t[]> outBuf(new uint8_t[m_blockSizeInBytes]);
+
+	DWORD numBytesRead = 0;
+	DWORD numBytesWritten = 0;
+	size_t blockCount = 0;
+	BOOL writeOK = TRUE;
+	while (ReadFile(hInputFile.get(), inBuf.get(), m_blockSizeInBytes, &numBytesRead, /*overlapped*/nullptr) && numBytesRead > 0 && writeOK)
+	{
+		if (!func(inBuf.get(), outBuf.get(), numBytesRead))
+			break;
+
+		writeOK = WriteFile(hOutputFile.get(), outBuf.get(), numBytesRead, &numBytesWritten, /*overlapped*/nullptr);
+		
+		if (numBytesRead != numBytesWritten)
+			printf("Problem in transforming the file: %d read vs %d (bytes) written\n", numBytesRead, numBytesWritten);
+
+		blockCount++;
+	}
+
+	wprintf(L"Transformed %d blocks from %s into %s\n", blockCount, m_strFirstFile.c_str(), m_strSecondFile.c_str());
+
+	return true;
+}
+
+///////////////////////////////////////////////////////////////////////////////
+// MappedWinFileTransformer
+
+bool MappedWinFileTransformer::Process(TProcessFunc func)
+{
+	return true; // todo
 }

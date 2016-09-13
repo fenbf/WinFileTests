@@ -32,7 +32,8 @@ int _tmain(int argc, LPTSTR argv[])
 	}
 
 	//StdioFileTransformer trans(argv[1], argv[2], blockSize);
-	IoStreamFileTransformer trans(argv[1], argv[2], blockSize);
+	//IoStreamFileTransformer trans(argv[1], argv[2], blockSize);
+	WinFileTransformer trans(argv[1], argv[2], blockSize);
 
 	trans.Process(CopyTransform);
 

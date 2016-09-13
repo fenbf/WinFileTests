@@ -26,6 +26,7 @@ protected:
 	const size_t m_blockSizeInBytes;
 };
 
+// transformer using STDIO, 
 class StdioFileTransformer : public FileTransformer
 {
 public:
@@ -34,6 +35,7 @@ public:
 	virtual bool Process(TProcessFunc func);
 };
 
+// transformer using STD library from C++, streams, 
 class IoStreamFileTransformer : public FileTransformer
 {
 public:
@@ -41,3 +43,22 @@ public:
 
 	virtual bool Process(TProcessFunc func);
 };
+
+// transformer using Windows Api, standard
+class WinFileTransformer : public FileTransformer
+{
+public:
+	using FileTransformer::FileTransformer; // inheriting constructor
+
+	virtual bool Process(TProcessFunc func);
+};
+
+// transformer using Windows Api, memory mapped files
+class MappedWinFileTransformer : public FileTransformer
+{
+public:
+	using FileTransformer::FileTransformer; // inheriting constructor
+
+	virtual bool Process(TProcessFunc func);
+};
+
