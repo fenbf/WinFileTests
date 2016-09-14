@@ -199,19 +199,18 @@ bool MappedWinFileTransformer::Process(TProcessFunc func)
 	if (!hInputFile)
 		return false;
 
-	auto hOutputFile = make_HANDLE_unique_ptr(CreateFile(m_strSecondFile.c_str(), GENERIC_WRITE, /*shared mode*/0, /*security*/nullptr, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, /*template*/nullptr), m_strSecondFile);
+	/* The output file MUST have Read/Write access for the mapping to succeed. */
+	auto hOutputFile = make_HANDLE_unique_ptr(CreateFile(m_strSecondFile.c_str(), GENERIC_READ | GENERIC_WRITE, /*shared mode*/0, /*security*/nullptr, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, /*template*/nullptr), m_strSecondFile);
 	if (!hOutputFile)
 		return false;
 	
 	BOOL complete = FALSE;
-	HANDLE hIn = INVALID_HANDLE_VALUE, hOut = INVALID_HANDLE_VALUE;
-	HANDLE hInMap = NULL, hOutMap = NULL;
-	LPTSTR pIn = NULL, pInFile = NULL, pOut = NULL, pOutFile = NULL;
+	uint8_t* ptrInFile = nullptr; 
+	uint8_t* ptrOutFile = nullptr;
 
 	HANDLE_unique_ptr hInputMap;
 	HANDLE_unique_ptr hOutputMap;
 
-	__try {
 		LARGE_INTEGER fileSize;
 
 		/* Get the input file size. */
@@ -228,65 +227,67 @@ bool MappedWinFileTransformer::Process(TProcessFunc func)
 			return false;
 
 		/* Map the input file */
-		pInFile = MapViewOfFile(hInputMap.get(), FILE_MAP_READ, 0, 0, 0);
-		if (pInFile == NULL)
-			ReportException(_T("Failure Mapping input file."), 3);
-
-		/*  Create/Open the output file. */
-		/* The output file MUST have Read/Write access for the mapping to succeed. */
-		hOut = CreateFile(fOut, GENERIC_READ | GENERIC_WRITE,
-			0, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
-		if (hOut == INVALID_HANDLE_VALUE) {
-			complete = TRUE; /* Do not delete an existing file. */
-			ReportException(_T("Failure Opening output file."), 5);
+		ptrInFile = (uint8_t*)MapViewOfFile(hInputMap.get(), FILE_MAP_READ, 0, 0, 0);
+		if (ptrInFile == nullptr)
+		{
+			printf("Cannot map input file!\n");
+			return false;
 		}
 
-		/* Map the output file. CreateFileMapping will expand
-		the file if it is smaller than the mapping. */
+		/*  Create/Open the output file. */
 
-		hOutMap = CreateFileMapping(hOut, NULL, PAGE_READWRITE, fileSize.HighPart, fileSize.LowPart, NULL);
-		if (hOutMap == NULL)
-			ReportException(_T("Failure creating output map."), 7);
-		pOutFile = MapViewOfFile(hOutMap, FILE_MAP_WRITE, 0, 0, (SIZE_T)fileSize.QuadPart);
-		if (pOutFile == NULL)
-			ReportException(_T("Failure mapping output file."), 8);
+		hOutputMap = make_HANDLE_unique_ptr(CreateFileMapping(hOutputFile.get(), NULL, PAGE_READWRITE, fileSize.HighPart, fileSize.LowPart, NULL), L"Output map");
+		if (!hOutputMap)
+			return false;
 
-		/* Now move the input file to the output file, doing all the work in memory. */
-		__try
+		ptrOutFile = (uint8_t*)MapViewOfFile(hOutputMap.get(), FILE_MAP_WRITE, 0, 0, (SIZE_T)fileSize.QuadPart);
+		if (ptrOutFile == nullptr)
 		{
-			CHAR cShift = (CHAR)shift;
-			pIn = pInFile;
-			pOut = pOutFile;
+			printf("Cannot map output file!\n");
+			return false;
+		}
 
-			while (pIn < pInFile + fileSize.QuadPart) {
-				*pOut = (*pIn + cShift);
-				pIn++; pOut++;
+		//__try
+		{
+			auto pIn = ptrInFile;
+			auto pOut = ptrOutFile;
+			size_t bytesProcessed = 0;
+			while (pIn < ptrInFile + fileSize.QuadPart) 
+			{
+				const size_t blockSize = bytesProcessed + m_blockSizeInBytes < fileSize.QuadPart ? m_blockSizeInBytes : fileSize.QuadPart - bytesProcessed;
+				func(pIn, pOut, blockSize);
+				pIn+= blockSize;
+				pOut+= blockSize;
+				bytesProcessed += m_blockSizeInBytes;
 			}
 			complete = TRUE;
 		}
-		__except (GetExceptionCode() == EXCEPTION_IN_PAGE_ERROR ? EXCEPTION_EXECUTE_HANDLER : EXCEPTION_CONTINUE_SEARCH)
+		/*__except (GetExceptionCode() == EXCEPTION_IN_PAGE_ERROR ? EXCEPTION_EXECUTE_HANDLER : EXCEPTION_CONTINUE_SEARCH)
 		{
 			complete = FALSE;
-			ReportException(_T("Fatal Error accessing mapped file."), 9);
-		}
+			printf("Fatal Error accessing mapped file.\n");
+		}*/
 
 		/* Close all views and handles. */
-		UnmapViewOfFile(pOutFile); UnmapViewOfFile(pInFile);
-		CloseHandle(hOutMap); CloseHandle(hInMap);
-		CloseHandle(hIn); CloseHandle(hOut);
-		return complete;
-	}
+		UnmapViewOfFile(ptrOutFile); 
+		UnmapViewOfFile(ptrInFile);
 
-	__except (EXCEPTION_EXECUTE_HANDLER) {
-		if (pOutFile != NULL) UnmapViewOfFile(pOutFile); if (pInFile != NULL) UnmapViewOfFile(pInFile);
-		if (hOutMap != NULL) CloseHandle(hOutMap); if (hInMap != NULL) CloseHandle(hInMap);
-		if (hIn != INVALID_HANDLE_VALUE) CloseHandle(hIn); if (hOut != INVALID_HANDLE_VALUE) CloseHandle(hOut);
+		return true;
+	//}
 
-		/* Delete the output file if the operation did not complete successfully. */
-		if (!complete)
-			DeleteFile(fOut);
-		return FALSE;
-	}
+	//__except (EXCEPTION_EXECUTE_HANDLER) 
+	//{
+	//	if (ptrOutFile) 
+	//		UnmapViewOfFile(ptrOutFile); 
+	//	if (ptrInFile) 
+	//		UnmapViewOfFile(ptrInFile);
 
-	return true; 
+	//	/* Delete the output file if the operation did not complete successfully. */
+	//	if (!complete)
+	//		DeleteFile(m_strSecondFile.c_str());
+
+	//	return false;
+	//}
+
+	//return true; 
 }
