@@ -193,6 +193,34 @@ bool WinFileTransformer::Process(TProcessFunc func)
 ///////////////////////////////////////////////////////////////////////////////
 // MappedWinFileTransformer
 
+
+bool DoProcess(uint8_t* &pIn, uint8_t* ptrInFile, uint8_t* &pOut, uint8_t* ptrOutFile, LARGE_INTEGER &fileSize, const size_t m_blockSizeInBytes, FileTransformer::TProcessFunc func)
+{
+	size_t bytesProcessed = 0;
+	size_t blockSize = 0;
+
+	__try
+	{
+		pIn = ptrInFile;
+		pOut = ptrOutFile;
+		while (pIn < ptrInFile + fileSize.QuadPart)
+		{
+			blockSize = static_cast<size_t>(bytesProcessed + m_blockSizeInBytes < fileSize.QuadPart ? m_blockSizeInBytes : fileSize.QuadPart - bytesProcessed);
+			func(pIn, pOut, blockSize);
+			pIn += blockSize;
+			pOut += blockSize;
+			bytesProcessed += m_blockSizeInBytes;
+		}
+		return true;
+	}
+	__except (GetExceptionCode() == EXCEPTION_IN_PAGE_ERROR ? EXCEPTION_EXECUTE_HANDLER : EXCEPTION_CONTINUE_SEARCH)
+	{
+		printf("Fatal Error accessing mapped file.\n");
+	}
+
+	return false;
+}
+
 bool MappedWinFileTransformer::Process(TProcessFunc func)
 {
 	auto hInputFile = make_HANDLE_unique_ptr(CreateFile(m_strFirstFile.c_str(), GENERIC_READ, /*shared mode*/0, /*security*/nullptr, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, /*template*/nullptr), m_strFirstFile);
@@ -204,90 +232,57 @@ bool MappedWinFileTransformer::Process(TProcessFunc func)
 	if (!hOutputFile)
 		return false;
 	
-	BOOL complete = FALSE;
+	bool complete = false;
 	uint8_t* ptrInFile = nullptr; 
 	uint8_t* ptrOutFile = nullptr;
+	uint8_t* pIn = nullptr;
+	uint8_t* pOut = nullptr;
 
 	HANDLE_unique_ptr hInputMap;
 	HANDLE_unique_ptr hOutputMap;
 
-		LARGE_INTEGER fileSize;
+	LARGE_INTEGER fileSize;
 
-		/* Get the input file size. */
-		GetFileSizeEx(hInputFile.get(), &fileSize);
+	/* Get the input file size. */
+	GetFileSizeEx(hInputFile.get(), &fileSize);
 			
-		/* This is a necessar, but NOT sufficient, test for mappability on 32-bit systems S
-		* Also see the long comment a few lines below */
-		/*if (fileSize.HighPart > 0 && sizeof(SIZE_T) == 4)
-			ReportException(_T("This file is too large to map on a Win32 system."), 4);*/
+	/* This is a necessar, but NOT sufficient, test for mappability on 32-bit systems S
+	* Also see the long comment a few lines below */
+	/*if (fileSize.HighPart > 0 && sizeof(SIZE_T) == 4)
+		ReportException(_T("This file is too large to map on a Win32 system."), 4);*/
 
-		/* Create a file mapping object on the input file. Use the file size. */
-		hInputMap = make_HANDLE_unique_ptr(CreateFileMapping(hInputFile.get(), NULL, PAGE_READONLY, 0, 0, NULL), L"Input map");
-		if (!hInputMap)
-			return false;
+	/* Create a file mapping object on the input file. Use the file size. */
+	hInputMap = make_HANDLE_unique_ptr(CreateFileMapping(hInputFile.get(), NULL, PAGE_READONLY, 0, 0, NULL), L"Input map");
+	if (!hInputMap)
+		return false;
 
-		/* Map the input file */
-		ptrInFile = (uint8_t*)MapViewOfFile(hInputMap.get(), FILE_MAP_READ, 0, 0, 0);
-		if (ptrInFile == nullptr)
-		{
-			printf("Cannot map input file!\n");
-			return false;
-		}
+	/* Map the input file */
+	ptrInFile = (uint8_t*)MapViewOfFile(hInputMap.get(), FILE_MAP_READ, 0, 0, 0);
+	if (ptrInFile == nullptr)
+	{
+		printf("Cannot map input file!\n");
+		return false;
+	}
 
-		/*  Create/Open the output file. */
+	/*  Create/Open the output file. */
 
-		hOutputMap = make_HANDLE_unique_ptr(CreateFileMapping(hOutputFile.get(), NULL, PAGE_READWRITE, fileSize.HighPart, fileSize.LowPart, NULL), L"Output map");
-		if (!hOutputMap)
-			return false;
+	hOutputMap = make_HANDLE_unique_ptr(CreateFileMapping(hOutputFile.get(), NULL, PAGE_READWRITE, fileSize.HighPart, fileSize.LowPart, NULL), L"Output map");
+	if (!hOutputMap)
+		return false;
 
-		ptrOutFile = (uint8_t*)MapViewOfFile(hOutputMap.get(), FILE_MAP_WRITE, 0, 0, (SIZE_T)fileSize.QuadPart);
-		if (ptrOutFile == nullptr)
-		{
-			printf("Cannot map output file!\n");
-			return false;
-		}
+	ptrOutFile = (uint8_t*)MapViewOfFile(hOutputMap.get(), FILE_MAP_WRITE, 0, 0, (SIZE_T)fileSize.QuadPart);
+	if (ptrOutFile == nullptr)
+	{
+		printf("Cannot map output file!\n");
+		return false;
+	}
 
-		//__try
-		{
-			auto pIn = ptrInFile;
-			auto pOut = ptrOutFile;
-			size_t bytesProcessed = 0;
-			while (pIn < ptrInFile + fileSize.QuadPart) 
-			{
-				const size_t blockSize = bytesProcessed + m_blockSizeInBytes < fileSize.QuadPart ? m_blockSizeInBytes : fileSize.QuadPart - bytesProcessed;
-				func(pIn, pOut, blockSize);
-				pIn+= blockSize;
-				pOut+= blockSize;
-				bytesProcessed += m_blockSizeInBytes;
-			}
-			complete = TRUE;
-		}
-		/*__except (GetExceptionCode() == EXCEPTION_IN_PAGE_ERROR ? EXCEPTION_EXECUTE_HANDLER : EXCEPTION_CONTINUE_SEARCH)
-		{
-			complete = FALSE;
-			printf("Fatal Error accessing mapped file.\n");
-		}*/
+	DoProcess(pIn, ptrInFile, pOut, ptrOutFile, fileSize, m_blockSizeInBytes, func);
 
-		/* Close all views and handles. */
-		UnmapViewOfFile(ptrOutFile); 
-		UnmapViewOfFile(ptrInFile);
+	/* Close all views and handles. */
+	UnmapViewOfFile(ptrOutFile); 
+	UnmapViewOfFile(ptrInFile);
 
-		return true;
-	//}
 
-	//__except (EXCEPTION_EXECUTE_HANDLER) 
-	//{
-	//	if (ptrOutFile) 
-	//		UnmapViewOfFile(ptrOutFile); 
-	//	if (ptrInFile) 
-	//		UnmapViewOfFile(ptrInFile);
-
-	//	/* Delete the output file if the operation did not complete successfully. */
-	//	if (!complete)
-	//		DeleteFile(m_strSecondFile.c_str());
-
-	//	return false;
-	//}
-
-	//return true; 
+	return complete;
 }
