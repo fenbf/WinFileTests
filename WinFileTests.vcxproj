@@ -147,6 +147,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="FileCreators.cpp" />
     <ClCompile Include="FileTransformers.cpp" />
     <ClCompile Include="WinFileTest.cpp" />
   </ItemGroup>
@@ -154,6 +155,7 @@
     <None Include="Readme.md" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="FileCreators.h" />
     <ClInclude Include="FileTransformers.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

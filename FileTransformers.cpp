@@ -194,6 +194,8 @@ bool WinFileTransformer::Process(TProcessFunc func)
 // MappedWinFileTransformer
 
 
+// with memory mapped files it's required to use SEH, so we need a separate function to do this
+// see at: https://blogs.msdn.microsoft.com/larryosterman/2006/10/16/so-when-is-it-ok-to-use-seh/
 bool DoProcess(uint8_t* &pIn, uint8_t* ptrInFile, uint8_t* &pOut, uint8_t* ptrOutFile, LARGE_INTEGER &fileSize, const size_t m_blockSizeInBytes, FileTransformer::TProcessFunc func)
 {
 	size_t bytesProcessed = 0;
@@ -282,7 +284,6 @@ bool MappedWinFileTransformer::Process(TProcessFunc func)
 	/* Close all views and handles. */
 	UnmapViewOfFile(ptrOutFile); 
 	UnmapViewOfFile(ptrInFile);
-
 
 	return complete;
 }

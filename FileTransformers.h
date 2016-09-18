@@ -32,7 +32,7 @@ class StdioFileTransformer : public FileTransformer
 public:
 	using FileTransformer::FileTransformer; // inheriting constructor
 
-	virtual bool Process(TProcessFunc func);
+	virtual bool Process(TProcessFunc func) override;
 };
 
 // transformer using STD library from C++, streams, 
@@ -41,7 +41,7 @@ class IoStreamFileTransformer : public FileTransformer
 public:
 	using FileTransformer::FileTransformer; // inheriting constructor
 
-	virtual bool Process(TProcessFunc func);
+	virtual bool Process(TProcessFunc func) override;
 };
 
 // transformer using Windows Api, standard
@@ -50,7 +50,7 @@ class WinFileTransformer : public FileTransformer
 public:
 	using FileTransformer::FileTransformer; // inheriting constructor
 
-	virtual bool Process(TProcessFunc func);
+	virtual bool Process(TProcessFunc func) override;
 };
 
 // transformer using Windows Api, memory mapped files
@@ -59,6 +59,6 @@ class MappedWinFileTransformer : public FileTransformer
 public:
 	using FileTransformer::FileTransformer; // inheriting constructor
 
-	virtual bool Process(TProcessFunc func);
+	virtual bool Process(TProcessFunc func) override;
 };
 
