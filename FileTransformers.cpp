@@ -1,5 +1,7 @@
 #include "FileTransformers.h"
 
+#include "Utils.h"
+
 #include "WINEXCLUDE.H"
 #include <windows.h>
 #include <tchar.h>
@@ -7,58 +9,6 @@
 #include <memory>
 #include <fstream>
 
-void PrintCannotOpenFile(std::wstring strFname)
-{
-	wprintf(L"Cannot open %s file!\n", strFname.c_str());
-}
-
-// stateless functor object for deleting FILE files
-struct FILEDeleter 
-{
-	void operator()(FILE *pFile) 
-	{
-		if (pFile)
-			fclose(pFile);
-	}
-};
-
-using FILE_unique_ptr = std::unique_ptr<FILE, FILEDeleter>;
-
-FILE_unique_ptr make_fopen(const wchar_t* fname, const wchar_t* mode)
-{
-	FILE *f = nullptr;
-	auto err = _wfopen_s(&f, fname, mode); // by default it's buffered IO, 4k buffer
-	if (err != 0)
-	{
-		PrintCannotOpenFile(fname);
-		return nullptr;
-	}
-
-	return FILE_unique_ptr(f);
-}
-
-// stateless functor object for deleting Win File files
-struct HANDLEDeleter
-{
-	void operator()(HANDLE handle)
-	{
-		if (handle != INVALID_HANDLE_VALUE)
-			CloseHandle(handle);
-	}
-};
-
-using HANDLE_unique_ptr = std::unique_ptr<void, HANDLEDeleter>;
-
-HANDLE_unique_ptr make_HANDLE_unique_ptr(HANDLE handle, std::wstring strMsg)
-{
-	if (handle == INVALID_HANDLE_VALUE || handle == nullptr)
-	{
-		wprintf_s(L"Invalid handle value! %s\n", strMsg.c_str());
-		return nullptr;
-	}
-
-	return HANDLE_unique_ptr(handle);
-}
 
 ///////////////////////////////////////////////////////////////////////////////
 // StdioFileTransformer

@@ -9,12 +9,19 @@
 #include <string>
 
 #include "FileTransformers.h"
+#include "FileCreators.h"
 
 // function used to just copy one file into another
 bool CopyTransform(uint8_t *inBuf, uint8_t *outBuf, size_t sizeInBytes)
 {
 	memcpy(outBuf, inBuf, sizeInBytes);
 	return true;
+}
+
+char GenOrder()
+{
+	static char num = 0;
+	return num++;
 }
 
 enum class AppMode {Invalid, Create, Transform};
@@ -32,7 +39,7 @@ AppParams ParseCmd(int argc, LPTSTR * argv)
 {
 	AppParams outParams;
 
-	if (argc < 5)
+	if (argc < 4)
 	{
 		printf("WinFileTests options:\n");
 		printf("    create filename bytes [benchmark]\n");
@@ -52,7 +59,7 @@ AppParams ParseCmd(int argc, LPTSTR * argv)
 	outParams.m_strFirstFileName = std::wstring(argv[2]);
 
 	if (outParams.m_mode == AppMode::Transform)
-		outParams.m_strFirstFileName = std::wstring(argv[3]);
+		outParams.m_strSecondFileName = std::wstring(argv[3]);
 
 	outParams.m_byteSize = _wtoi(outParams.m_mode == AppMode::Transform ? argv[4] : argv[3]);
 	if (outParams.m_byteSize <= 0)
@@ -66,6 +73,13 @@ AppParams ParseCmd(int argc, LPTSTR * argv)
 		outParams.m_benchmark = true;
 
 	return outParams;
+}
+
+void CreateFile(const AppParams& params)
+{
+	StdioFileCreator gen(params.m_strFirstFileName, params.m_byteSize);
+
+	gen.Create(GenOrder);
 }
 
 void TransformFiles(const AppParams& params)
@@ -84,7 +98,7 @@ int _tmain(int argc, LPTSTR argv[])
 
 	if (params.m_mode == AppMode::Create)
 	{
-
+		CreateFile(params);
 	}
 	else if (params.m_mode == AppMode::Transform)
 	{

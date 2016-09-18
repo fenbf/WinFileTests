@@ -149,6 +149,7 @@
   <ItemGroup>
     <ClCompile Include="FileCreators.cpp" />
     <ClCompile Include="FileTransformers.cpp" />
+    <ClCompile Include="Utils.cpp" />
     <ClCompile Include="WinFileTest.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -157,6 +158,7 @@
   <ItemGroup>
     <ClInclude Include="FileCreators.h" />
     <ClInclude Include="FileTransformers.h" />
+    <ClInclude Include="Utils.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -4,6 +4,7 @@
     <ClCompile Include="FileCreators.cpp" />
     <ClCompile Include="WinFileTest.cpp" />
     <ClCompile Include="FileTransformers.cpp" />
+    <ClCompile Include="Utils.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Readme.md" />
@@ -11,5 +12,6 @@
   <ItemGroup>
     <ClInclude Include="FileTransformers.h" />
     <ClInclude Include="FileCreators.h" />
+    <ClInclude Include="Utils.h" />
   </ItemGroup>
 </Project>
