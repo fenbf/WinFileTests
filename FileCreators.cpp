@@ -18,26 +18,27 @@ bool StdioFileCreator::Create(TGenFunc func)
 	if (!pOutputFilePtr)
 		return false;
 
-	// optional buffer for the further tests?
-	// std::unique_ptr<char[]> outBuf(new uint8_t[m_blockSizeInBytes]);
+	std::unique_ptr<char[]> outBuf(new char[m_blockSizeInBytes]);
 
 	// allocate proper size at the beginning...
 
 	size_t bytesWritten = 0;
+	size_t blockCount = 0;
 	while (bytesWritten < m_sizeInBytes)
 	{
-		char val = func();
-		const auto numWritten = fwrite(&val, sizeof(char), 1, pOutputFilePtr.get());
-		if (numWritten < 1)
+		func(outBuf.get(), m_blockSizeInBytes);
+		const auto numWritten = fwrite(outBuf.get(), sizeof(char), m_blockSizeInBytes, pOutputFilePtr.get());
+		if (numWritten < m_blockSizeInBytes)
 		{
 			printf("Problem in writing the file!\n");
 			break;
 		}
 
-		bytesWritten++;
+		bytesWritten+=m_blockSizeInBytes;
+		blockCount++;
 	}
 
-	wprintf(L"Created file %s with %d bytes\n", m_strFile.c_str(), bytesWritten);
+	wprintf(L"Created file %s with %d bytes, %d blocks\n", m_strFile.c_str(), bytesWritten, blockCount);
 
 	return true;
 }

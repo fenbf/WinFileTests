@@ -1,23 +1,28 @@
 #pragma once
 
 #include <string>
+#include <cassert>
 
 class FileCreator
 {
 public:
-	FileCreator(std::wstring strFile, size_t sizeInBytes) 
+	FileCreator(std::wstring strFile, size_t sizeInBytes, size_t blockSizeInBytes)
 		: m_strFile(std::move(strFile))
 		, m_sizeInBytes(sizeInBytes)
-	{ }
+		, m_blockSizeInBytes(blockSizeInBytes)
+	{ 
+		assert(m_sizeInBytes % m_blockSizeInBytes == 0 && "size must be multiple of blockSize");
+	}
 
-	// generates char that will be written to a file
-	using TGenFunc = char(*)(); 
+	// buf and block size to generate data
+	using TGenFunc = void(*)(char*, size_t);
 
 	virtual bool Create(TGenFunc func) = 0;
 
 protected:
 	const std::wstring m_strFile;
 	const size_t m_sizeInBytes;
+	const size_t m_blockSizeInBytes;
 };
 
 // creator using STDIO, 

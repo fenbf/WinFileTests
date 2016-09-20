@@ -33,12 +33,16 @@ bool StdioFileTransformer::Process(TProcessFunc func)
 		
 		if (numRead == 0)
 		{
-			printf("Couldn't read block of data!\n");
-			return false;
+			if (ferror(pInputFilePtr.get()))
+			{
+				printf("Couldn't read block of data (block num %d)!\n", blockCount);
+				return false;
+			}
+
+			break;
 		}
 
-		if (!func(inBuf.get(), outBuf.get(), numRead))
-			break;
+		func(inBuf.get(), outBuf.get(), numRead);
 
 		const auto numWritten = fwrite(outBuf.get(), sizeof(uint8_t), numRead, pOutputFilePtr.get());
 		if (numRead != numWritten)
@@ -87,8 +91,7 @@ bool IoStreamFileTransformer::Process(TProcessFunc func)
 
 		const auto numRead = inputStream.gcount();
 
-		if (!func(inBuf.get(), outBuf.get(), static_cast<size_t>(numRead)))
-			break;
+		func(inBuf.get(), outBuf.get(), static_cast<size_t>(numRead));
 
 		outputStream.write((const char *)outBuf.get(), numRead);
 		if (outputStream.bad())
@@ -124,8 +127,7 @@ bool WinFileTransformer::Process(TProcessFunc func)
 	BOOL writeOK = TRUE;
 	while (ReadFile(hInputFile.get(), inBuf.get(), m_blockSizeInBytes, &numBytesRead, /*overlapped*/nullptr) && numBytesRead > 0 && writeOK)
 	{
-		if (!func(inBuf.get(), outBuf.get(), numBytesRead))
-			break;
+		func(inBuf.get(), outBuf.get(), numBytesRead);
 
 		writeOK = WriteFile(hOutputFile.get(), outBuf.get(), numBytesRead, &numBytesWritten, /*overlapped*/nullptr);
 		
@@ -146,7 +148,7 @@ bool WinFileTransformer::Process(TProcessFunc func)
 
 // with memory mapped files it's required to use SEH, so we need a separate function to do this
 // see at: https://blogs.msdn.microsoft.com/larryosterman/2006/10/16/so-when-is-it-ok-to-use-seh/
-bool DoProcess(uint8_t* &pIn, uint8_t* ptrInFile, uint8_t* &pOut, uint8_t* ptrOutFile, LARGE_INTEGER &fileSize, const size_t m_blockSizeInBytes, FileTransformer::TProcessFunc func)
+bool DoProcess(uint8_t* &pIn, uint8_t* ptrInFile, uint8_t* &pOut, uint8_t* ptrOutFile, LARGE_INTEGER &fileSize, const size_t m_blockSizeInBytes, IFileTransformer::TProcessFunc func)
 {
 	size_t bytesProcessed = 0;
 	size_t blockSize = 0;
