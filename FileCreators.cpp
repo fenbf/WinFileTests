@@ -8,6 +8,7 @@
 #include <cstdio>
 #include <memory>
 #include <fstream>
+#include <iostream>
 
 ///////////////////////////////////////////////////////////////////////////////
 // StdioFileCreator
@@ -38,7 +39,7 @@ bool StdioFileCreator::Create(TGenFunc func)
 		blockCount++;
 	}
 
-	wprintf(L"Created file %s with %d bytes, %d blocks\n", m_strFile.c_str(), bytesWritten, blockCount);
+	std::wcout << L"File " << m_strFile << L" created with " << bytesWritten << L" bytes written, " << blockCount << L" blocks\n";
 
 	return true;
 }

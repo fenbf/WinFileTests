@@ -8,6 +8,7 @@
 #include <cstdio>
 #include <memory>
 #include <fstream>
+#include <iostream>
 
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -35,7 +36,7 @@ bool StdioFileTransformer::Process(TProcessFunc func)
 		{
 			if (ferror(pInputFilePtr.get()))
 			{
-				printf("Couldn't read block of data (block num %d)!\n", blockCount);
+				std::wcout << L"Couldn't read block of data (block num " << blockCount << L")!\n";
 				return false;
 			}
 
@@ -46,12 +47,12 @@ bool StdioFileTransformer::Process(TProcessFunc func)
 
 		const auto numWritten = fwrite(outBuf.get(), sizeof(uint8_t), numRead, pOutputFilePtr.get());
 		if (numRead != numWritten)
-			printf("Problem in transforming the file: %d read vs %d (bytes) written\n", numRead, numWritten);
+			Logger::PrintErrorTransformingFile(numRead, numWritten);
 
 		blockCount++;
 	}
 
-	wprintf(L"Transformed %d blocks from %s into %s\n", blockCount, m_strFirstFile.c_str(), m_strSecondFile.c_str());
+	Logger::PrintTransformSummary(blockCount, m_strFirstFile, m_strSecondFile);
 
 	return true;
 }
@@ -64,14 +65,14 @@ bool IoStreamFileTransformer::Process(TProcessFunc func)
 	std::ifstream inputStream(m_strFirstFile, std::wios::in | std::wios::binary);
 	if (inputStream.bad())
 	{
-		PrintCannotOpenFile(m_strFirstFile);
+		Logger::PrintCannotOpenFile(m_strFirstFile);
 		return false;
 	}
 
 	std::ofstream outputStream(m_strSecondFile, std::wios::out | std::wios::binary | std::wios::trunc);
 	if (outputStream.bad())
 	{
-		PrintCannotOpenFile(m_strSecondFile);
+		Logger::PrintCannotOpenFile(m_strSecondFile);
 		return false;
 	}
 
@@ -89,18 +90,19 @@ bool IoStreamFileTransformer::Process(TProcessFunc func)
 			return false;
 		}
 
-		const auto numRead = inputStream.gcount();
+		const auto numRead = static_cast<size_t>(inputStream.gcount());
 
 		func(inBuf.get(), outBuf.get(), static_cast<size_t>(numRead));
 
+		const auto posBefore = outputStream.tellp();  // num of bytes written computed from file pos...
 		outputStream.write((const char *)outBuf.get(), numRead);
 		if (outputStream.bad())
-			printf("Cannot write %d bytes into output\n", static_cast<size_t>(numRead));
+			Logger::PrintErrorTransformingFile(numRead, static_cast<size_t>(outputStream.tellp() - posBefore));
 
 		blockCount++;
 	}
 
-	wprintf(L"Transformed %d blocks from %s into %s\n", blockCount, m_strFirstFile.c_str(), m_strSecondFile.c_str());
+	Logger::PrintTransformSummary(blockCount, m_strFirstFile, m_strSecondFile);
 
 	return true;
 }
@@ -125,19 +127,19 @@ bool WinFileTransformer::Process(TProcessFunc func)
 	DWORD numBytesWritten = 0;
 	size_t blockCount = 0;
 	BOOL writeOK = TRUE;
-	while (ReadFile(hInputFile.get(), inBuf.get(), m_blockSizeInBytes, &numBytesRead, /*overlapped*/nullptr) && numBytesRead > 0 && writeOK)
+	while (ReadFile(hInputFile.get(), inBuf.get(), static_cast<DWORD>(m_blockSizeInBytes), &numBytesRead, /*overlapped*/nullptr) && numBytesRead > 0 && writeOK)
 	{
 		func(inBuf.get(), outBuf.get(), numBytesRead);
 
 		writeOK = WriteFile(hOutputFile.get(), outBuf.get(), numBytesRead, &numBytesWritten, /*overlapped*/nullptr);
 		
 		if (numBytesRead != numBytesWritten)
-			printf("Problem in transforming the file: %d read vs %d (bytes) written\n", numBytesRead, numBytesWritten);
+			Logger::PrintErrorTransformingFile(numBytesRead, numBytesWritten);
 
 		blockCount++;
 	}
 
-	wprintf(L"Transformed %d blocks from %s into %s\n", blockCount, m_strFirstFile.c_str(), m_strSecondFile.c_str());
+	Logger::PrintTransformSummary(blockCount, m_strFirstFile, m_strSecondFile);
 
 	return true;
 }
@@ -159,7 +161,7 @@ bool DoProcess(uint8_t* &pIn, uint8_t* ptrInFile, uint8_t* &pOut, uint8_t* ptrOu
 		pOut = ptrOutFile;
 		while (pIn < ptrInFile + fileSize.QuadPart)
 		{
-			blockSize = static_cast<size_t>(bytesProcessed + m_blockSizeInBytes < fileSize.QuadPart ? m_blockSizeInBytes : fileSize.QuadPart - bytesProcessed);
+			blockSize = static_cast<size_t>(static_cast<long long>(bytesProcessed + m_blockSizeInBytes) < fileSize.QuadPart ? m_blockSizeInBytes : fileSize.QuadPart - bytesProcessed);
 			func(pIn, pOut, blockSize);
 			pIn += blockSize;
 			pOut += blockSize;

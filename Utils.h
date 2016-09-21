@@ -26,5 +26,9 @@ using HANDLE_unique_ptr = std::unique_ptr<void, HANDLEDeleter>;
 FILE_unique_ptr make_fopen(const wchar_t* fname, const wchar_t* mode);
 HANDLE_unique_ptr make_HANDLE_unique_ptr(HANDLE handle, std::wstring strMsg);
 
-void PrintCannotOpenFile(std::wstring strFname);
-
+namespace Logger
+{
+	void PrintCannotOpenFile(std::wstring strFname);
+	void PrintErrorTransformingFile(size_t numRead, size_t numWritten);
+	void PrintTransformSummary(size_t blockCount, std::wstring strFirstFile, std::wstring strSecondFile);
+}

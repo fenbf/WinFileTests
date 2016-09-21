@@ -8,6 +8,7 @@
 #include <stdio.h>
 #include <string>
 #include <memory>
+#include <iostream>
 
 #include "FileTransformers.h"
 #include "FileCreators.h"
@@ -78,7 +79,7 @@ AppParams ParseCmd(int argc, LPTSTR * argv)
 	outParams.m_byteSize = _wtoi(argv[++currentArg]);
 	if (outParams.m_byteSize <= 0)
 	{
-		printf("wrong byte size! %d", outParams.m_byteSize);
+		std::wcout << L"Wrong byte size! " << outParams.m_byteSize << L"\n";
 		outParams.m_mode = AppMode::Invalid;
 	}
 	if (outParams.m_mode == AppMode::Create)
@@ -92,12 +93,12 @@ AppParams ParseCmd(int argc, LPTSTR * argv)
 		outParams.m_secondSize = _wtoi(argv[++currentArg]);
 		if (outParams.m_secondSize <= 0)
 		{
-			printf("wrong block size! %d", outParams.m_byteSize);
+			std::wcout << L"Wrong block size! " << outParams.m_secondSize << L"\n";
 			outParams.m_mode = AppMode::Invalid;
 		}
 		if (outParams.m_byteSize % outParams.m_secondSize != 0)
 		{
-			printf("file size must be multiple of block size! %d %d", outParams.m_byteSize, outParams.m_secondSize);
+			std::wcout << L"File size must be multiple of block size " << outParams.m_byteSize << L", " << outParams.m_secondSize << L"\n";
 			outParams.m_mode = AppMode::Invalid;
 		}
 	}
