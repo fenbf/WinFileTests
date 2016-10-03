@@ -14,7 +14,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 // StdioFileTransformer
 
-bool StdioFileTransformer::Process(TProcessFunc func)
+bool StdioFileTransformer::Process(TProcessFunc processFunc)
 {
 	FILE_unique_ptr pInputFilePtr = make_fopen(m_strFirstFile.c_str(), L"rb");
 	if (!pInputFilePtr)
@@ -24,9 +24,8 @@ bool StdioFileTransformer::Process(TProcessFunc func)
 	if (!pOutputFilePtr)
 		return false;
 
-	std::unique_ptr<uint8_t[]> inBuf(new uint8_t[m_blockSizeInBytes]);
-	std::unique_ptr<uint8_t[]> outBuf(new uint8_t[m_blockSizeInBytes]);
-
+	auto inBuf = std::make_unique<uint8_t[]>(m_blockSizeInBytes);
+	auto outBuf = std::make_unique<uint8_t[]>(m_blockSizeInBytes);
 	size_t blockCount = 0;
 	while (!feof(pInputFilePtr.get()))
 	{
@@ -43,7 +42,7 @@ bool StdioFileTransformer::Process(TProcessFunc func)
 			break;
 		}
 
-		func(inBuf.get(), outBuf.get(), numRead);
+		processFunc(inBuf.get(), outBuf.get(), numRead);
 
 		const auto numWritten = fwrite(outBuf.get(), sizeof(uint8_t), numRead, pOutputFilePtr.get());
 		if (numRead != numWritten)
@@ -60,7 +59,7 @@ bool StdioFileTransformer::Process(TProcessFunc func)
 ///////////////////////////////////////////////////////////////////////////////
 // IoStreamFileTransformer
 
-bool IoStreamFileTransformer::Process(TProcessFunc func)
+bool IoStreamFileTransformer::Process(TProcessFunc processFunc)
 {
 	std::ifstream inputStream(m_strFirstFile, std::wios::in | std::wios::binary);
 	if (inputStream.bad())
@@ -76,8 +75,8 @@ bool IoStreamFileTransformer::Process(TProcessFunc func)
 		return false;
 	}
 
-	std::unique_ptr<uint8_t[]> inBuf(new uint8_t[m_blockSizeInBytes]);
-	std::unique_ptr<uint8_t[]> outBuf(new uint8_t[m_blockSizeInBytes]);
+	auto inBuf = std::make_unique<uint8_t[]>(m_blockSizeInBytes);
+	auto outBuf = std::make_unique<uint8_t[]>(m_blockSizeInBytes);
 
 	size_t blockCount = 0;
 	while (!inputStream.eof())
@@ -92,7 +91,7 @@ bool IoStreamFileTransformer::Process(TProcessFunc func)
 
 		const auto numRead = static_cast<size_t>(inputStream.gcount());
 
-		func(inBuf.get(), outBuf.get(), static_cast<size_t>(numRead));
+		processFunc(inBuf.get(), outBuf.get(), static_cast<size_t>(numRead));
 
 		const auto posBefore = outputStream.tellp();  // num of bytes written computed from file pos...
 		outputStream.write((const char *)outBuf.get(), numRead);
@@ -110,7 +109,7 @@ bool IoStreamFileTransformer::Process(TProcessFunc func)
 ///////////////////////////////////////////////////////////////////////////////
 // WinFileTransformer
 
-bool WinFileTransformer::Process(TProcessFunc func)
+bool WinFileTransformer::Process(TProcessFunc processFunc)
 {
 	auto hInputFile = make_HANDLE_unique_ptr(CreateFile(m_strFirstFile.c_str(), GENERIC_READ, /*shared mode*/0, /*security*/nullptr, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, /*template*/nullptr), m_strFirstFile);
 	if (!hInputFile)
@@ -120,8 +119,8 @@ bool WinFileTransformer::Process(TProcessFunc func)
 	if (!hOutputFile)
 		return false;
 
-	std::unique_ptr<uint8_t[]> inBuf(new uint8_t[m_blockSizeInBytes]);
-	std::unique_ptr<uint8_t[]> outBuf(new uint8_t[m_blockSizeInBytes]);
+	auto inBuf = std::make_unique<uint8_t[]>(m_blockSizeInBytes);
+	auto outBuf = std::make_unique<uint8_t[]>(m_blockSizeInBytes);
 
 	DWORD numBytesRead = 0;
 	DWORD numBytesWritten = 0;
@@ -129,7 +128,7 @@ bool WinFileTransformer::Process(TProcessFunc func)
 	BOOL writeOK = TRUE;
 	while (ReadFile(hInputFile.get(), inBuf.get(), static_cast<DWORD>(m_blockSizeInBytes), &numBytesRead, /*overlapped*/nullptr) && numBytesRead > 0 && writeOK)
 	{
-		func(inBuf.get(), outBuf.get(), numBytesRead);
+		processFunc(inBuf.get(), outBuf.get(), numBytesRead);
 
 		writeOK = WriteFile(hOutputFile.get(), outBuf.get(), numBytesRead, &numBytesWritten, /*overlapped*/nullptr);
 		
@@ -150,7 +149,7 @@ bool WinFileTransformer::Process(TProcessFunc func)
 
 // with memory mapped files it's required to use SEH, so we need a separate function to do this
 // see at: https://blogs.msdn.microsoft.com/larryosterman/2006/10/16/so-when-is-it-ok-to-use-seh/
-bool DoProcess(uint8_t* &pIn, uint8_t* ptrInFile, uint8_t* &pOut, uint8_t* ptrOutFile, LARGE_INTEGER &fileSize, const size_t m_blockSizeInBytes, IFileTransformer::TProcessFunc func)
+bool DoProcess(uint8_t* &pIn, uint8_t* ptrInFile, uint8_t* &pOut, uint8_t* ptrOutFile, LARGE_INTEGER &fileSize, const size_t m_blockSizeInBytes, IFileTransformer::TProcessFunc processFunc)
 {
 	size_t bytesProcessed = 0;
 	size_t blockSize = 0;
@@ -162,7 +161,7 @@ bool DoProcess(uint8_t* &pIn, uint8_t* ptrInFile, uint8_t* &pOut, uint8_t* ptrOu
 		while (pIn < ptrInFile + fileSize.QuadPart)
 		{
 			blockSize = static_cast<size_t>(static_cast<long long>(bytesProcessed + m_blockSizeInBytes) < fileSize.QuadPart ? m_blockSizeInBytes : fileSize.QuadPart - bytesProcessed);
-			func(pIn, pOut, blockSize);
+			processFunc(pIn, pOut, blockSize);
 			pIn += blockSize;
 			pOut += blockSize;
 			bytesProcessed += m_blockSizeInBytes;
@@ -177,7 +176,7 @@ bool DoProcess(uint8_t* &pIn, uint8_t* ptrInFile, uint8_t* &pOut, uint8_t* ptrOu
 	return false;
 }
 
-bool MappedWinFileTransformer::Process(TProcessFunc func)
+bool MappedWinFileTransformer::Process(TProcessFunc processFunc)
 {
 	auto hInputFile = make_HANDLE_unique_ptr(CreateFile(m_strFirstFile.c_str(), GENERIC_READ, /*shared mode*/0, /*security*/nullptr, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, /*template*/nullptr), m_strFirstFile);
 	if (!hInputFile)
@@ -233,7 +232,7 @@ bool MappedWinFileTransformer::Process(TProcessFunc func)
 		return false;
 	}
 
-	DoProcess(pIn, ptrInFile, pOut, ptrOutFile, fileSize, m_blockSizeInBytes, func);
+	DoProcess(pIn, ptrInFile, pOut, ptrOutFile, fileSize, m_blockSizeInBytes, processFunc);
 
 	/* Close all views and handles. */
 	UnmapViewOfFile(ptrOutFile); 
