@@ -61,14 +61,14 @@ bool StdioFileTransformer::Process(TProcessFunc processFunc)
 
 bool IoStreamFileTransformer::Process(TProcessFunc processFunc)
 {
-	std::ifstream inputStream(m_strFirstFile, std::wios::in | std::wios::binary);
+	std::ifstream inputStream(m_strFirstFile, std::ios::in | std::ios::binary);
 	if (inputStream.bad())
 	{
 		Logger::PrintCannotOpenFile(m_strFirstFile);
 		return false;
 	}
 
-	std::ofstream outputStream(m_strSecondFile, std::wios::out | std::wios::binary | std::wios::trunc);
+	std::ofstream outputStream(m_strSecondFile, std::ios::out | std::ios::binary | std::ios::trunc);
 	if (outputStream.bad())
 	{
 		Logger::PrintCannotOpenFile(m_strSecondFile);
@@ -229,6 +229,7 @@ bool MappedWinFileTransformer::Process(TProcessFunc processFunc)
 	if (ptrOutFile == nullptr)
 	{
 		printf("Cannot map output file!\n");
+		UnmapViewOfFile(ptrInFile);
 		return false;
 	}
 

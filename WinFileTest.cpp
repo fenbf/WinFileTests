@@ -28,7 +28,7 @@ void GenOrder(char* buf, size_t blockSize)
 	}
 }
 
-enum class AppMode {Invalid, Create, Transform};
+enum class AppMode {Invalid, Create, Transform, ClearCache};
 
 struct AppParams
 {
@@ -45,11 +45,12 @@ AppParams ParseCmd(int argc, LPTSTR * argv)
 {
 	AppParams outParams;
 
-	if (argc < 6)
+	if (argc < 3)
 	{
 		printf("WinFileTests options:\n");
 		printf("    create ApiName filename sizeInMB blockSizeInBytes\n");
 		printf("    transform ApiName filenameSrc filenameOut blockSizeInBytes\n");
+		printf("    clear fileName\n");
 		printf("api names: crt, std, win, winmap\n");
 		return outParams;
 	}
@@ -63,8 +64,17 @@ AppParams ParseCmd(int argc, LPTSTR * argv)
 	if (wcscmp(argv[currentArg], L"transform") == 0)
 		outParams.m_mode = AppMode::Transform;
 
+	if (wcscmp(argv[currentArg], L"clear") == 0)
+		outParams.m_mode = AppMode::ClearCache;
+
 	if (outParams.m_mode == AppMode::Invalid)
 		return outParams;
+
+	if (outParams.m_mode == AppMode::ClearCache)
+	{
+		outParams.m_strFirstFileName = std::wstring(argv[++currentArg]);
+		return outParams;
+	}
 
 	// apiName:
 	outParams.m_strApiName = std::wstring(argv[++currentArg]);
@@ -142,6 +152,17 @@ void TransformFiles(const AppParams& params)
 		ptrTransformer->Process(CopyTransform);
 }
 
+void ClearFileCache(const AppParams& params)
+{
+	// trick that open a file with unbuffered mode and that should clear cache for it...
+
+	HANDLE hFile = CreateFile(params.m_strFirstFileName.c_str(), GENERIC_READ, /*shared mode*/0, /*security*/nullptr, OPEN_EXISTING, FILE_FLAG_NO_BUFFERING, /*template*/nullptr);
+	if (hFile == INVALID_HANDLE_VALUE)
+		printf("Cannot open file!");
+	else
+		CloseHandle(hFile);
+}
+
 int _tmain(int argc, LPTSTR argv[])
 {
 	auto params = ParseCmd(argc, argv);
@@ -153,6 +174,10 @@ int _tmain(int argc, LPTSTR argv[])
 	else if (params.m_mode == AppMode::Transform)
 	{
 		TransformFiles(params);
+	}
+	else if (params.m_mode == AppMode::ClearCache)
+	{
+		ClearFileCache(params);
 	}
 
 	return 0;
