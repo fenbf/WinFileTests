@@ -39,7 +39,7 @@ bool StdioFileCreator::Create(TGenFunc func)
 		blockCount++;
 	}
 
-	std::wcout << L"File " << m_strFile << L" created with " << bytesWritten << L" bytes written, " << blockCount << L" blocks\n";
+	std::wcout << L"File " << m_strFile << L" created with " << bytesWritten << L" bytes written (" << (bytesWritten>>20) << L" MB), " << blockCount << L" blocks\n";
 
 	return true;
 }

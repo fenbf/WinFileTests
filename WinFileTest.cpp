@@ -48,8 +48,8 @@ AppParams ParseCmd(int argc, LPTSTR * argv)
 	if (argc < 3)
 	{
 		printf("WinFileTests options:\n");
-		printf("    create ApiName filename sizeInMB blockSizeInBytes\n");
-		printf("    transform ApiName filenameSrc filenameOut blockSizeInBytes\n");
+		printf("    create ApiName filename sizeInMB blockSizeInKilobytes\n");
+		printf("    transform ApiName filenameSrc filenameOut blockSizeInKilobytes\n");
 		printf("    clear fileName\n");
 		printf("api names: crt, std, win, winmap\n");
 		return outParams;
@@ -92,9 +92,14 @@ AppParams ParseCmd(int argc, LPTSTR * argv)
 		std::wcout << L"Wrong byte size! " << outParams.m_byteSize << L"\n";
 		outParams.m_mode = AppMode::Invalid;
 	}
+
 	if (outParams.m_mode == AppMode::Create)
 	{
 		outParams.m_byteSize *= 1024 * 1024; // for creation we use Mega Bytes! so convert it into bytes...
+	}
+	else if (outParams.m_mode == AppMode::Transform)
+	{
+		outParams.m_byteSize *= 1024; // for transform we use kilobytes! so convert it into bytes...
 	}
 
 	// second size for creation
@@ -106,6 +111,9 @@ AppParams ParseCmd(int argc, LPTSTR * argv)
 			std::wcout << L"Wrong block size! " << outParams.m_secondSize << L"\n";
 			outParams.m_mode = AppMode::Invalid;
 		}
+		else
+			outParams.m_secondSize *= 1024; // convert from kilobytes into bytes...
+
 		if (outParams.m_byteSize % outParams.m_secondSize != 0)
 		{
 			std::wcout << L"File size must be multiple of block size " << outParams.m_byteSize << L", " << outParams.m_secondSize << L"\n";
