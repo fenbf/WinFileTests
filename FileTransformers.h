@@ -25,13 +25,13 @@ public:
 class IFileTransformer
 {
 public:
-	IFileTransformer(std::wstring strFirstFile, std::wstring strSecondFile, size_t blockSizeInBytes) 
+	IFileTransformer(std::wstring strFirstFile, std::wstring strSecondFile, size_t blockSizeInBytes, bool useSequential) 
 		: m_strFirstFile(std::move(strFirstFile))
 		, m_strSecondFile(std::move(strSecondFile))
 		, m_blockSizeInBytes(blockSizeInBytes)
+		, m_useSequential(useSequential)
 	{ }
 	virtual ~IFileTransformer() { }
-
 
 	using TProcessFunc = void(*) (uint8_t*, uint8_t*, size_t); 
 
@@ -41,6 +41,7 @@ protected:
 	const std::wstring m_strFirstFile;
 	const std::wstring m_strSecondFile;
 	const size_t m_blockSizeInBytes;
+	const bool m_useSequential;
 };
 
 // transformer using STDIO, 

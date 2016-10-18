@@ -16,7 +16,7 @@
 
 bool StdioFileTransformer::Process(TProcessFunc processFunc)
 {
-	FILE_unique_ptr pInputFilePtr = make_fopen(m_strFirstFile.c_str(), L"rb");
+	FILE_unique_ptr pInputFilePtr = make_fopen(m_strFirstFile.c_str(), m_useSequential ? L"rbS" : L"rb");
 	if (!pInputFilePtr)
 		return false;
 
@@ -111,7 +111,7 @@ bool IoStreamFileTransformer::Process(TProcessFunc processFunc)
 
 bool WinFileTransformer::Process(TProcessFunc processFunc)
 {
-	auto hInputFile = make_HANDLE_unique_ptr(CreateFile(m_strFirstFile.c_str(), GENERIC_READ, /*shared mode*/0, /*security*/nullptr, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, /*template*/nullptr), m_strFirstFile);
+	auto hInputFile = make_HANDLE_unique_ptr(CreateFile(m_strFirstFile.c_str(), GENERIC_READ, /*shared mode*/0, /*security*/nullptr, OPEN_EXISTING, m_useSequential ? FILE_FLAG_SEQUENTIAL_SCAN : FILE_ATTRIBUTE_NORMAL, /*template*/nullptr), m_strFirstFile);
 	if (!hInputFile)
 		return false;
 
@@ -178,7 +178,7 @@ bool DoProcess(uint8_t* &pIn, uint8_t* ptrInFile, uint8_t* &pOut, uint8_t* ptrOu
 
 bool MappedWinFileTransformer::Process(TProcessFunc processFunc)
 {
-	auto hInputFile = make_HANDLE_unique_ptr(CreateFile(m_strFirstFile.c_str(), GENERIC_READ, /*shared mode*/0, /*security*/nullptr, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, /*template*/nullptr), m_strFirstFile);
+	auto hInputFile = make_HANDLE_unique_ptr(CreateFile(m_strFirstFile.c_str(), GENERIC_READ, /*shared mode*/0, /*security*/nullptr, OPEN_EXISTING, m_useSequential ? FILE_FLAG_SEQUENTIAL_SCAN : FILE_ATTRIBUTE_NORMAL, /*template*/nullptr), m_strFirstFile);
 	if (!hInputFile)
 		return false;
 

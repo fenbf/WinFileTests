@@ -39,6 +39,7 @@ struct AppParams
 	size_t m_byteSize{ 0 };
 	size_t m_secondSize{ 0 };
 	bool m_benchmark{ false };
+	bool m_sequential{ false };
 };
 
 AppParams ParseCmd(int argc, LPTSTR * argv)
@@ -49,7 +50,7 @@ AppParams ParseCmd(int argc, LPTSTR * argv)
 	{
 		printf("WinFileTests options:\n");
 		printf("    create ApiName filename sizeInMB blockSizeInKilobytes\n");
-		printf("    transform ApiName filenameSrc filenameOut blockSizeInKilobytes\n");
+		printf("    transform ApiName filenameSrc filenameOut blockSizeInKilobytes (seq)\n");
 		printf("    clear fileName\n");
 		printf("api names: crt, std, win, winmap\n");
 		return outParams;
@@ -121,8 +122,11 @@ AppParams ParseCmd(int argc, LPTSTR * argv)
 		}
 	}
 
+	if ((outParams.m_mode == AppMode::Transform && argc > currentArg+1 && wcscmp(argv[++currentArg], L"seq") == 0))
+		outParams.m_sequential = true;
+
 	// possible future use...
-	//if ((outParams.m_mode != AppMode::Invalid && argc > 5 && wcscmp(argv[++currentArg], L"benchmark") == 0))
+	//if ((outParams.m_mode != AppMode::Invalid && argc > currentArg+1 && wcscmp(argv[++currentArg], L"benchmark") == 0))
 	//	outParams.m_benchmark = true;
 
 	return outParams;
@@ -143,13 +147,13 @@ void TransformFiles(const AppParams& params)
 {
 	std::unique_ptr<IFileTransformer> ptrTransformer;
 	if (params.m_strApiName == L"crt")
-		ptrTransformer.reset(new StdioFileTransformer(params.m_strFirstFileName, params.m_strSecondFileName, params.m_byteSize));
+		ptrTransformer.reset(new StdioFileTransformer(params.m_strFirstFileName, params.m_strSecondFileName, params.m_byteSize, params.m_sequential));
 	else if (params.m_strApiName == L"std")
-		ptrTransformer.reset(new IoStreamFileTransformer(params.m_strFirstFileName, params.m_strSecondFileName, params.m_byteSize));
+		ptrTransformer.reset(new IoStreamFileTransformer(params.m_strFirstFileName, params.m_strSecondFileName, params.m_byteSize, params.m_sequential));
 	else if (params.m_strApiName == L"win")
-		ptrTransformer.reset(new WinFileTransformer(params.m_strFirstFileName, params.m_strSecondFileName, params.m_byteSize));
+		ptrTransformer.reset(new WinFileTransformer(params.m_strFirstFileName, params.m_strSecondFileName, params.m_byteSize, params.m_sequential));
 	else if (params.m_strApiName == L"winmap")
-		ptrTransformer.reset(new MappedWinFileTransformer(params.m_strFirstFileName, params.m_strSecondFileName, params.m_byteSize));
+		ptrTransformer.reset(new MappedWinFileTransformer(params.m_strFirstFileName, params.m_strSecondFileName, params.m_byteSize, params.m_sequential));
 	else
 	{
 		printf("unrecognized api...\n");
