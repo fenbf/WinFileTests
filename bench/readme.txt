@@ -1,3 +1,2 @@
 Apps from Windows System Programming, Edition 4 by Johnson (John) Hart
-clear.exe - app from the fifth chapter, used to clear OS cache, it allocates large amount of memory so that OS needs to free its caches...
 timep.exe - app that measures process times, returns running time, kernel and user times

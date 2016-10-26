@@ -1,0 +1,420 @@
+-- TEST 1kb CRT --
+Transformed 262144 blocks of 1024 bytes from test256.bin into outCrt.bin
+Real Time: 00:00:03.687
+User Time: 00:00:00.234
+Sys Time:  00:00:00.906
+Transformed 262144 blocks of 1024 bytes from test256.bin into outCrt.bin
+Real Time: 00:00:04.250
+User Time: 00:00:00.140
+Sys Time:  00:00:00.984
+Transformed 262144 blocks of 1024 bytes from test256.bin into outCrt.bin
+Real Time: 00:00:03.828
+User Time: 00:00:00.171
+Sys Time:  00:00:00.812
+Transformed 262144 blocks of 1024 bytes from test256.bin into outCrt.bin
+Real Time: 00:00:03.718
+User Time: 00:00:00.171
+Sys Time:  00:00:01.015
+Transformed 262144 blocks of 1024 bytes from test256.bin into outCrt.bin
+Real Time: 00:00:04.159
+User Time: 00:00:00.265
+Sys Time:  00:00:00.875
+-- TEST 16kb CRT --
+Transformed 16384 blocks of 16384 bytes from test256.bin into outCrt.bin
+Real Time: 00:00:04.078
+User Time: 00:00:00.093
+Sys Time:  00:00:00.625
+Transformed 16384 blocks of 16384 bytes from test256.bin into outCrt.bin
+Real Time: 00:00:03.750
+User Time: 00:00:00.093
+Sys Time:  00:00:00.828
+Transformed 16384 blocks of 16384 bytes from test256.bin into outCrt.bin
+Real Time: 00:00:03.768
+User Time: 00:00:00.046
+Sys Time:  00:00:00.843
+Transformed 16384 blocks of 16384 bytes from test256.bin into outCrt.bin
+Real Time: 00:00:04.359
+User Time: 00:00:00.046
+Sys Time:  00:00:00.453
+Transformed 16384 blocks of 16384 bytes from test256.bin into outCrt.bin
+Real Time: 00:00:04.078
+User Time: 00:00:00.062
+Sys Time:  00:00:00.828
+-- TEST 128kb CRT --
+Transformed 2048 blocks of 131072 bytes from test256.bin into outCrt.bin
+Real Time: 00:00:03.875
+User Time: 00:00:00.062
+Sys Time:  00:00:00.515
+Transformed 2048 blocks of 131072 bytes from test256.bin into outCrt.bin
+Real Time: 00:00:04.000
+User Time: 00:00:00.078
+Sys Time:  00:00:00.500
+Transformed 2048 blocks of 131072 bytes from test256.bin into outCrt.bin
+Real Time: 00:00:04.156
+User Time: 00:00:00.046
+Sys Time:  00:00:00.390
+Transformed 2048 blocks of 131072 bytes from test256.bin into outCrt.bin
+Real Time: 00:00:04.000
+User Time: 00:00:00.078
+Sys Time:  00:00:00.437
+Transformed 2048 blocks of 131072 bytes from test256.bin into outCrt.bin
+Real Time: 00:00:03.906
+User Time: 00:00:00.093
+Sys Time:  00:00:00.312
+-- TEST 1024kb CRT --
+Transformed 256 blocks of 1048576 bytes from test256.bin into outCrt.bin
+Real Time: 00:00:03.421
+User Time: 00:00:00.062
+Sys Time:  00:00:00.531
+Transformed 256 blocks of 1048576 bytes from test256.bin into outCrt.bin
+Real Time: 00:00:02.984
+User Time: 00:00:00.093
+Sys Time:  00:00:00.343
+Transformed 256 blocks of 1048576 bytes from test256.bin into outCrt.bin
+Real Time: 00:00:03.562
+User Time: 00:00:00.031
+Sys Time:  00:00:00.562
+Transformed 256 blocks of 1048576 bytes from test256.bin into outCrt.bin
+Real Time: 00:00:03.218
+User Time: 00:00:00.187
+Sys Time:  00:00:00.343
+Transformed 256 blocks of 1048576 bytes from test256.bin into outCrt.bin
+Real Time: 00:00:03.703
+User Time: 00:00:00.093
+Sys Time:  00:00:00.437
+-- TEST 2048kb CRT --
+Transformed 128 blocks of 2097152 bytes from test256.bin into outCrt.bin
+Real Time: 00:00:03.453
+User Time: 00:00:00.078
+Sys Time:  00:00:00.671
+Transformed 128 blocks of 2097152 bytes from test256.bin into outCrt.bin
+Real Time: 00:00:02.937
+User Time: 00:00:00.046
+Sys Time:  00:00:00.578
+Transformed 128 blocks of 2097152 bytes from test256.bin into outCrt.bin
+Real Time: 00:00:03.015
+User Time: 00:00:00.093
+Sys Time:  00:00:00.546
+Transformed 128 blocks of 2097152 bytes from test256.bin into outCrt.bin
+Real Time: 00:00:03.078
+User Time: 00:00:00.046
+Sys Time:  00:00:00.609
+Transformed 128 blocks of 2097152 bytes from test256.bin into outCrt.bin
+Real Time: 00:00:02.890
+User Time: 00:00:00.093
+Sys Time:  00:00:00.453
+-- TEST 1kb STD --
+Transformed 262144 blocks of 1024 bytes from test256.bin into outStd.bin
+Real Time: 00:00:04.140
+User Time: 00:00:00.281
+Sys Time:  00:00:00.921
+Transformed 262144 blocks of 1024 bytes from test256.bin into outStd.bin
+Real Time: 00:00:03.968
+User Time: 00:00:00.328
+Sys Time:  00:00:00.906
+Transformed 262144 blocks of 1024 bytes from test256.bin into outStd.bin
+Real Time: 00:00:04.025
+User Time: 00:00:00.343
+Sys Time:  00:00:00.984
+Transformed 262144 blocks of 1024 bytes from test256.bin into outStd.bin
+Real Time: 00:00:04.093
+User Time: 00:00:00.218
+Sys Time:  00:00:01.015
+Transformed 262144 blocks of 1024 bytes from test256.bin into outStd.bin
+Real Time: 00:00:04.531
+User Time: 00:00:00.328
+Sys Time:  00:00:00.890
+-- TEST 16kb STD --
+Transformed 16384 blocks of 16384 bytes from test256.bin into outStd.bin
+Real Time: 00:00:04.361
+User Time: 00:00:00.140
+Sys Time:  00:00:00.781
+Transformed 16384 blocks of 16384 bytes from test256.bin into outStd.bin
+Real Time: 00:00:04.078
+User Time: 00:00:00.171
+Sys Time:  00:00:00.828
+Transformed 16384 blocks of 16384 bytes from test256.bin into outStd.bin
+Real Time: 00:00:03.859
+User Time: 00:00:00.156
+Sys Time:  00:00:00.796
+Transformed 16384 blocks of 16384 bytes from test256.bin into outStd.bin
+Real Time: 00:00:04.156
+User Time: 00:00:00.203
+Sys Time:  00:00:00.703
+Transformed 16384 blocks of 16384 bytes from test256.bin into outStd.bin
+Real Time: 00:00:04.203
+User Time: 00:00:00.140
+Sys Time:  00:00:00.921
+-- TEST 128kb STD --
+Transformed 2048 blocks of 131072 bytes from test256.bin into outStd.bin
+Real Time: 00:00:03.984
+User Time: 00:00:00.187
+Sys Time:  00:00:00.703
+Transformed 2048 blocks of 131072 bytes from test256.bin into outStd.bin
+Real Time: 00:00:03.658
+User Time: 00:00:00.171
+Sys Time:  00:00:00.828
+Transformed 2048 blocks of 131072 bytes from test256.bin into outStd.bin
+Real Time: 00:00:04.015
+User Time: 00:00:00.234
+Sys Time:  00:00:00.906
+Transformed 2048 blocks of 131072 bytes from test256.bin into outStd.bin
+Real Time: 00:00:04.156
+User Time: 00:00:00.140
+Sys Time:  00:00:00.921
+Transformed 2048 blocks of 131072 bytes from test256.bin into outStd.bin
+Real Time: 00:00:04.062
+User Time: 00:00:00.265
+Sys Time:  00:00:01.000
+-- TEST 1024kb STD --
+Transformed 256 blocks of 1048576 bytes from test256.bin into outStd.bin
+Real Time: 00:00:05.218
+User Time: 00:00:00.234
+Sys Time:  00:00:00.984
+Transformed 256 blocks of 1048576 bytes from test256.bin into outStd.bin
+Real Time: 00:00:05.906
+User Time: 00:00:00.234
+Sys Time:  00:00:00.859
+Transformed 256 blocks of 1048576 bytes from test256.bin into outStd.bin
+Real Time: 00:00:03.687
+User Time: 00:00:00.187
+Sys Time:  00:00:00.875
+Transformed 256 blocks of 1048576 bytes from test256.bin into outStd.bin
+Real Time: 00:00:03.171
+User Time: 00:00:00.234
+Sys Time:  00:00:00.734
+Transformed 256 blocks of 1048576 bytes from test256.bin into outStd.bin
+Real Time: 00:00:04.512
+User Time: 00:00:00.218
+Sys Time:  00:00:01.015
+-- TEST 2048kb STD --
+Transformed 128 blocks of 2097152 bytes from test256.bin into outStd.bin
+Real Time: 00:00:07.875
+User Time: 00:00:00.234
+Sys Time:  00:00:00.765
+Transformed 128 blocks of 2097152 bytes from test256.bin into outStd.bin
+Real Time: 00:00:07.359
+User Time: 00:00:00.265
+Sys Time:  00:00:00.609
+Transformed 128 blocks of 2097152 bytes from test256.bin into outStd.bin
+Real Time: 00:00:10.593
+User Time: 00:00:00.187
+Sys Time:  00:00:00.890
+Transformed 128 blocks of 2097152 bytes from test256.bin into outStd.bin
+Real Time: 00:00:07.250
+User Time: 00:00:00.203
+Sys Time:  00:00:00.828
+Transformed 128 blocks of 2097152 bytes from test256.bin into outStd.bin
+Real Time: 00:00:08.835
+User Time: 00:00:00.234
+Sys Time:  00:00:00.671
+-- TEST 1kb WIN --
+Transformed 262144 blocks of 1024 bytes from test256.bin into outWin.bin
+Real Time: 00:00:04.453
+User Time: 00:00:00.062
+Sys Time:  00:00:01.796
+Transformed 262144 blocks of 1024 bytes from test256.bin into outWin.bin
+Real Time: 00:00:04.125
+User Time: 00:00:00.062
+Sys Time:  00:00:01.890
+Transformed 262144 blocks of 1024 bytes from test256.bin into outWin.bin
+Real Time: 00:00:04.031
+User Time: 00:00:00.046
+Sys Time:  00:00:01.828
+Transformed 262144 blocks of 1024 bytes from test256.bin into outWin.bin
+Real Time: 00:00:03.937
+User Time: 00:00:00.062
+Sys Time:  00:00:01.718
+Transformed 262144 blocks of 1024 bytes from test256.bin into outWin.bin
+Real Time: 00:00:03.578
+User Time: 00:00:00.062
+Sys Time:  00:00:01.671
+-- TEST 16kb WIN --
+Transformed 16384 blocks of 16384 bytes from test256.bin into outWin.bin
+Real Time: 00:00:04.218
+User Time: 00:00:00.031
+Sys Time:  00:00:00.640
+Transformed 16384 blocks of 16384 bytes from test256.bin into outWin.bin
+Real Time: 00:00:04.109
+User Time: 00:00:00.046
+Sys Time:  00:00:00.500
+Transformed 16384 blocks of 16384 bytes from test256.bin into outWin.bin
+Real Time: 00:00:04.046
+User Time: 00:00:00.078
+Sys Time:  00:00:00.531
+Transformed 16384 blocks of 16384 bytes from test256.bin into outWin.bin
+Real Time: 00:00:03.687
+User Time: 00:00:00.062
+Sys Time:  00:00:00.765
+Transformed 16384 blocks of 16384 bytes from test256.bin into outWin.bin
+Real Time: 00:00:04.156
+User Time: 00:00:00.078
+Sys Time:  00:00:00.531
+-- TEST 128kb WIN --
+Transformed 2048 blocks of 131072 bytes from test256.bin into outWin.bin
+Real Time: 00:00:03.750
+User Time: 00:00:00.062
+Sys Time:  00:00:00.500
+Transformed 2048 blocks of 131072 bytes from test256.bin into outWin.bin
+Real Time: 00:00:05.250
+User Time: 00:00:00.093
+Sys Time:  00:00:00.578
+Transformed 2048 blocks of 131072 bytes from test256.bin into outWin.bin
+Real Time: 00:00:04.234
+User Time: 00:00:00.140
+Sys Time:  00:00:00.375
+Transformed 2048 blocks of 131072 bytes from test256.bin into outWin.bin
+Real Time: 00:00:04.062
+User Time: 00:00:00.078
+Sys Time:  00:00:00.500
+Transformed 2048 blocks of 131072 bytes from test256.bin into outWin.bin
+Real Time: 00:00:04.078
+User Time: 00:00:00.031
+Sys Time:  00:00:00.500
+-- TEST 1024kb WIN --
+Transformed 256 blocks of 1048576 bytes from test256.bin into outWin.bin
+Real Time: 00:00:03.515
+User Time: 00:00:00.046
+Sys Time:  00:00:00.546
+Transformed 256 blocks of 1048576 bytes from test256.bin into outWin.bin
+Real Time: 00:00:03.306
+User Time: 00:00:00.125
+Sys Time:  00:00:00.546
+Transformed 256 blocks of 1048576 bytes from test256.bin into outWin.bin
+Real Time: 00:00:03.640
+User Time: 00:00:00.093
+Sys Time:  00:00:00.406
+Transformed 256 blocks of 1048576 bytes from test256.bin into outWin.bin
+Real Time: 00:00:03.328
+User Time: 00:00:00.093
+Sys Time:  00:00:00.437
+Transformed 256 blocks of 1048576 bytes from test256.bin into outWin.bin
+Real Time: 00:00:03.296
+User Time: 00:00:00.015
+Sys Time:  00:00:00.468
+-- TEST 2048kb WIN --
+Transformed 128 blocks of 2097152 bytes from test256.bin into outWin.bin
+Real Time: 00:00:03.328
+User Time: 00:00:00.078
+Sys Time:  00:00:00.562
+Transformed 128 blocks of 2097152 bytes from test256.bin into outWin.bin
+Real Time: 00:00:02.812
+User Time: 00:00:00.109
+Sys Time:  00:00:00.437
+Transformed 128 blocks of 2097152 bytes from test256.bin into outWin.bin
+Real Time: 00:00:03.156
+User Time: 00:00:00.031
+Sys Time:  00:00:00.609
+Transformed 128 blocks of 2097152 bytes from test256.bin into outWin.bin
+Real Time: 00:00:02.781
+User Time: 00:00:00.109
+Sys Time:  00:00:00.500
+Transformed 128 blocks of 2097152 bytes from test256.bin into outWin.bin
+Real Time: 00:00:03.140
+User Time: 00:00:00.062
+Sys Time:  00:00:00.609
+-- TEST 1kb WINMAP --
+Transformed 262144 blocks of 1024 bytes from test256.bin into outWinMap.bin
+Real Time: 00:00:02.734
+User Time: 00:00:00.171
+Sys Time:  00:00:00.453
+Transformed 262144 blocks of 1024 bytes from test256.bin into outWinMap.bin
+Real Time: 00:00:02.640
+User Time: 00:00:00.187
+Sys Time:  00:00:00.421
+Transformed 262144 blocks of 1024 bytes from test256.bin into outWinMap.bin
+Real Time: 00:00:02.765
+User Time: 00:00:00.109
+Sys Time:  00:00:00.546
+Transformed 262144 blocks of 1024 bytes from test256.bin into outWinMap.bin
+Real Time: 00:00:02.640
+User Time: 00:00:00.140
+Sys Time:  00:00:00.562
+Transformed 262144 blocks of 1024 bytes from test256.bin into outWinMap.bin
+Real Time: 00:00:02.703
+User Time: 00:00:00.140
+Sys Time:  00:00:00.515
+-- TEST 16kb WINMAP --
+Transformed 16384 blocks of 16384 bytes from test256.bin into outWinMap.bin
+Real Time: 00:00:02.593
+User Time: 00:00:00.265
+Sys Time:  00:00:00.375
+Transformed 16384 blocks of 16384 bytes from test256.bin into outWinMap.bin
+Real Time: 00:00:02.687
+User Time: 00:00:00.140
+Sys Time:  00:00:00.515
+Transformed 16384 blocks of 16384 bytes from test256.bin into outWinMap.bin
+Real Time: 00:00:02.609
+User Time: 00:00:00.125
+Sys Time:  00:00:00.437
+Transformed 16384 blocks of 16384 bytes from test256.bin into outWinMap.bin
+Real Time: 00:00:02.953
+User Time: 00:00:00.203
+Sys Time:  00:00:00.515
+Transformed 16384 blocks of 16384 bytes from test256.bin into outWinMap.bin
+Real Time: 00:00:02.718
+User Time: 00:00:00.125
+Sys Time:  00:00:00.390
+-- TEST 128kb WINMAP --
+Transformed 2048 blocks of 131072 bytes from test256.bin into outWinMap.bin
+Real Time: 00:00:02.656
+User Time: 00:00:00.156
+Sys Time:  00:00:00.531
+Transformed 2048 blocks of 131072 bytes from test256.bin into outWinMap.bin
+Real Time: 00:00:02.703
+User Time: 00:00:00.203
+Sys Time:  00:00:00.562
+Transformed 2048 blocks of 131072 bytes from test256.bin into outWinMap.bin
+Real Time: 00:00:02.609
+User Time: 00:00:00.156
+Sys Time:  00:00:00.437
+Transformed 2048 blocks of 131072 bytes from test256.bin into outWinMap.bin
+Real Time: 00:00:02.734
+User Time: 00:00:00.156
+Sys Time:  00:00:00.531
+Transformed 2048 blocks of 131072 bytes from test256.bin into outWinMap.bin
+Real Time: 00:00:02.718
+User Time: 00:00:00.187
+Sys Time:  00:00:00.453
+-- TEST 1024kb WINMAP --
+Transformed 256 blocks of 1048576 bytes from test256.bin into outWinMap.bin
+Real Time: 00:00:02.765
+User Time: 00:00:00.093
+Sys Time:  00:00:00.468
+Transformed 256 blocks of 1048576 bytes from test256.bin into outWinMap.bin
+Real Time: 00:00:02.652
+User Time: 00:00:00.125
+Sys Time:  00:00:00.500
+Transformed 256 blocks of 1048576 bytes from test256.bin into outWinMap.bin
+Real Time: 00:00:02.671
+User Time: 00:00:00.203
+Sys Time:  00:00:00.437
+Transformed 256 blocks of 1048576 bytes from test256.bin into outWinMap.bin
+Real Time: 00:00:02.609
+User Time: 00:00:00.218
+Sys Time:  00:00:00.468
+Transformed 256 blocks of 1048576 bytes from test256.bin into outWinMap.bin
+Real Time: 00:00:02.671
+User Time: 00:00:00.171
+Sys Time:  00:00:00.484
+-- TEST 2048kb WINMAP --
+Transformed 128 blocks of 2097152 bytes from test256.bin into outWinMap.bin
+Real Time: 00:00:02.718
+User Time: 00:00:00.171
+Sys Time:  00:00:00.453
+Transformed 128 blocks of 2097152 bytes from test256.bin into outWinMap.bin
+Real Time: 00:00:02.609
+User Time: 00:00:00.171
+Sys Time:  00:00:00.453
+Transformed 128 blocks of 2097152 bytes from test256.bin into outWinMap.bin
+Real Time: 00:00:02.703
+User Time: 00:00:00.187
+Sys Time:  00:00:00.421
+Transformed 128 blocks of 2097152 bytes from test256.bin into outWinMap.bin
+Real Time: 00:00:02.609
+User Time: 00:00:00.140
+Sys Time:  00:00:00.562
+Transformed 128 blocks of 2097152 bytes from test256.bin into outWinMap.bin
+Real Time: 00:00:02.703
+User Time: 00:00:00.125
+Sys Time:  00:00:00.484

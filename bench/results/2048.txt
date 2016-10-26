@@ -1,0 +1,420 @@
+-- TEST 1kb CRT --
+Transformed 2097152 blocks of 1024 bytes from test2048.bin into outCrt.bin
+Real Time: 00:00:09.924
+User Time: 00:00:00.484
+Sys Time:  00:00:03.421
+Transformed 2097152 blocks of 1024 bytes from test2048.bin into outCrt.bin
+Real Time: 00:00:10.263
+User Time: 00:00:00.406
+Sys Time:  00:00:03.187
+Transformed 2097152 blocks of 1024 bytes from test2048.bin into outCrt.bin
+Real Time: 00:00:09.344
+User Time: 00:00:00.640
+Sys Time:  00:00:03.250
+Transformed 2097152 blocks of 1024 bytes from test2048.bin into outCrt.bin
+Real Time: 00:00:08.968
+User Time: 00:00:00.546
+Sys Time:  00:00:03.390
+Transformed 2097152 blocks of 1024 bytes from test2048.bin into outCrt.bin
+Real Time: 00:00:11.395
+User Time: 00:00:00.515
+Sys Time:  00:00:03.968
+-- TEST 16kb CRT --
+Transformed 131072 blocks of 16384 bytes from test2048.bin into outCrt.bin
+Real Time: 00:00:09.110
+User Time: 00:00:00.140
+Sys Time:  00:00:01.890
+Transformed 131072 blocks of 16384 bytes from test2048.bin into outCrt.bin
+Real Time: 00:01:11.683
+User Time: 00:00:00.250
+Sys Time:  00:00:01.593
+Transformed 131072 blocks of 16384 bytes from test2048.bin into outCrt.bin
+Real Time: 00:00:15.056
+User Time: 00:00:00.218
+Sys Time:  00:00:01.625
+Transformed 131072 blocks of 16384 bytes from test2048.bin into outCrt.bin
+Real Time: 00:00:08.881
+User Time: 00:00:00.125
+Sys Time:  00:00:01.546
+Transformed 131072 blocks of 16384 bytes from test2048.bin into outCrt.bin
+Real Time: 00:00:15.992
+User Time: 00:00:00.140
+Sys Time:  00:00:01.671
+-- TEST 128kb CRT --
+Transformed 16384 blocks of 131072 bytes from test2048.bin into outCrt.bin
+Real Time: 00:00:09.941
+User Time: 00:00:00.234
+Sys Time:  00:00:01.125
+Transformed 16384 blocks of 131072 bytes from test2048.bin into outCrt.bin
+Real Time: 00:01:11.108
+User Time: 00:00:00.171
+Sys Time:  00:00:01.171
+Transformed 16384 blocks of 131072 bytes from test2048.bin into outCrt.bin
+Real Time: 00:00:08.421
+User Time: 00:00:00.203
+Sys Time:  00:00:01.062
+Transformed 16384 blocks of 131072 bytes from test2048.bin into outCrt.bin
+Real Time: 00:00:09.733
+User Time: 00:00:00.156
+Sys Time:  00:00:01.328
+Transformed 16384 blocks of 131072 bytes from test2048.bin into outCrt.bin
+Real Time: 00:00:09.267
+User Time: 00:00:00.187
+Sys Time:  00:00:01.171
+-- TEST 1024kb CRT --
+Transformed 2048 blocks of 1048576 bytes from test2048.bin into outCrt.bin
+Real Time: 00:00:06.259
+User Time: 00:00:00.093
+Sys Time:  00:00:01.296
+Transformed 2048 blocks of 1048576 bytes from test2048.bin into outCrt.bin
+Real Time: 00:00:07.078
+User Time: 00:00:00.250
+Sys Time:  00:00:01.296
+Transformed 2048 blocks of 1048576 bytes from test2048.bin into outCrt.bin
+Real Time: 00:00:07.241
+User Time: 00:00:00.046
+Sys Time:  00:00:01.312
+Transformed 2048 blocks of 1048576 bytes from test2048.bin into outCrt.bin
+Real Time: 00:00:06.658
+User Time: 00:00:00.187
+Sys Time:  00:00:01.453
+Transformed 2048 blocks of 1048576 bytes from test2048.bin into outCrt.bin
+Real Time: 00:00:06.605
+User Time: 00:00:00.125
+Sys Time:  00:00:01.281
+-- TEST 2048kb CRT --
+Transformed 1024 blocks of 2097152 bytes from test2048.bin into outCrt.bin
+Real Time: 00:00:06.378
+User Time: 00:00:00.171
+Sys Time:  00:00:01.359
+Transformed 1024 blocks of 2097152 bytes from test2048.bin into outCrt.bin
+Real Time: 00:00:08.416
+User Time: 00:00:00.140
+Sys Time:  00:00:01.531
+Transformed 1024 blocks of 2097152 bytes from test2048.bin into outCrt.bin
+Real Time: 00:00:07.106
+User Time: 00:00:00.203
+Sys Time:  00:00:01.265
+Transformed 1024 blocks of 2097152 bytes from test2048.bin into outCrt.bin
+Real Time: 00:00:06.105
+User Time: 00:00:00.140
+Sys Time:  00:00:01.453
+Transformed 1024 blocks of 2097152 bytes from test2048.bin into outCrt.bin
+Real Time: 00:00:06.415
+User Time: 00:00:00.203
+Sys Time:  00:00:01.296
+-- TEST 1kb STD --
+Transformed 2097152 blocks of 1024 bytes from test2048.bin into outStd.bin
+Real Time: 00:00:10.944
+User Time: 00:00:01.015
+Sys Time:  00:00:03.781
+Transformed 2097152 blocks of 1024 bytes from test2048.bin into outStd.bin
+Real Time: 00:00:09.309
+User Time: 00:00:00.828
+Sys Time:  00:00:03.031
+Transformed 2097152 blocks of 1024 bytes from test2048.bin into outStd.bin
+Real Time: 00:00:08.979
+User Time: 00:00:01.078
+Sys Time:  00:00:03.687
+Transformed 2097152 blocks of 1024 bytes from test2048.bin into outStd.bin
+Real Time: 00:00:09.293
+User Time: 00:00:00.968
+Sys Time:  00:00:03.328
+Transformed 2097152 blocks of 1024 bytes from test2048.bin into outStd.bin
+Real Time: 00:00:10.479
+User Time: 00:00:00.875
+Sys Time:  00:00:03.921
+-- TEST 16kb STD --
+Transformed 131072 blocks of 16384 bytes from test2048.bin into outStd.bin
+Real Time: 00:00:09.093
+User Time: 00:00:00.609
+Sys Time:  00:00:03.046
+Transformed 131072 blocks of 16384 bytes from test2048.bin into outStd.bin
+Real Time: 00:00:09.232
+User Time: 00:00:00.671
+Sys Time:  00:00:03.437
+Transformed 131072 blocks of 16384 bytes from test2048.bin into outStd.bin
+Real Time: 00:00:10.168
+User Time: 00:00:00.609
+Sys Time:  00:00:03.187
+Transformed 131072 blocks of 16384 bytes from test2048.bin into outStd.bin
+Real Time: 00:00:09.295
+User Time: 00:00:00.671
+Sys Time:  00:00:03.078
+Transformed 131072 blocks of 16384 bytes from test2048.bin into outStd.bin
+Real Time: 00:00:09.196
+User Time: 00:00:00.421
+Sys Time:  00:00:02.953
+-- TEST 128kb STD --
+Transformed 16384 blocks of 131072 bytes from test2048.bin into outStd.bin
+Real Time: 00:00:10.345
+User Time: 00:00:00.578
+Sys Time:  00:00:03.187
+Transformed 16384 blocks of 131072 bytes from test2048.bin into outStd.bin
+Real Time: 00:00:09.020
+User Time: 00:00:00.656
+Sys Time:  00:00:03.562
+Transformed 16384 blocks of 131072 bytes from test2048.bin into outStd.bin
+Real Time: 00:00:09.538
+User Time: 00:00:00.609
+Sys Time:  00:00:03.375
+Transformed 16384 blocks of 131072 bytes from test2048.bin into outStd.bin
+Real Time: 00:01:21.873
+User Time: 00:00:00.593
+Sys Time:  00:00:03.000
+Transformed 16384 blocks of 131072 bytes from test2048.bin into outStd.bin
+Real Time: 00:00:12.293
+User Time: 00:00:00.578
+Sys Time:  00:00:03.203
+-- TEST 1024kb STD --
+Transformed 2048 blocks of 1048576 bytes from test2048.bin into outStd.bin
+Real Time: 00:01:13.081
+User Time: 00:00:00.546
+Sys Time:  00:00:03.031
+Transformed 2048 blocks of 1048576 bytes from test2048.bin into outStd.bin
+Real Time: 00:00:14.664
+User Time: 00:00:00.421
+Sys Time:  00:00:03.062
+Transformed 2048 blocks of 1048576 bytes from test2048.bin into outStd.bin
+Real Time: 00:01:13.399
+User Time: 00:00:00.359
+Sys Time:  00:00:02.937
+Transformed 2048 blocks of 1048576 bytes from test2048.bin into outStd.bin
+Real Time: 00:00:11.364
+User Time: 00:00:00.593
+Sys Time:  00:00:03.093
+Transformed 2048 blocks of 1048576 bytes from test2048.bin into outStd.bin
+Real Time: 00:00:12.452
+User Time: 00:00:00.562
+Sys Time:  00:00:02.828
+-- TEST 2048kb STD --
+Transformed 1024 blocks of 2097152 bytes from test2048.bin into outStd.bin
+Real Time: 00:00:11.326
+User Time: 00:00:00.531
+Sys Time:  00:00:02.984
+Transformed 1024 blocks of 2097152 bytes from test2048.bin into outStd.bin
+Real Time: 00:00:11.547
+User Time: 00:00:00.578
+Sys Time:  00:00:02.734
+Transformed 1024 blocks of 2097152 bytes from test2048.bin into outStd.bin
+Real Time: 00:01:14.814
+User Time: 00:00:00.687
+Sys Time:  00:00:03.078
+Transformed 1024 blocks of 2097152 bytes from test2048.bin into outStd.bin
+Real Time: 00:00:11.470
+User Time: 00:00:00.609
+Sys Time:  00:00:03.156
+Transformed 1024 blocks of 2097152 bytes from test2048.bin into outStd.bin
+Real Time: 00:00:11.975
+User Time: 00:00:00.609
+Sys Time:  00:00:03.093
+-- TEST 1kb WIN --
+Transformed 2097152 blocks of 1024 bytes from test2048.bin into outWin.bin
+Real Time: 00:00:10.780
+User Time: 00:00:00.421
+Sys Time:  00:00:06.562
+Transformed 2097152 blocks of 1024 bytes from test2048.bin into outWin.bin
+Real Time: 00:00:10.063
+User Time: 00:00:00.203
+Sys Time:  00:00:06.687
+Transformed 2097152 blocks of 1024 bytes from test2048.bin into outWin.bin
+Real Time: 00:00:10.863
+User Time: 00:00:00.453
+Sys Time:  00:00:06.609
+Transformed 2097152 blocks of 1024 bytes from test2048.bin into outWin.bin
+Real Time: 00:00:10.918
+User Time: 00:00:00.375
+Sys Time:  00:00:06.718
+Transformed 2097152 blocks of 1024 bytes from test2048.bin into outWin.bin
+Real Time: 00:00:10.645
+User Time: 00:00:00.296
+Sys Time:  00:00:06.484
+-- TEST 16kb WIN --
+Transformed 131072 blocks of 16384 bytes from test2048.bin into outWin.bin
+Real Time: 00:00:10.988
+User Time: 00:00:00.093
+Sys Time:  00:00:02.265
+Transformed 131072 blocks of 16384 bytes from test2048.bin into outWin.bin
+Real Time: 00:00:10.503
+User Time: 00:00:00.046
+Sys Time:  00:00:01.656
+Transformed 131072 blocks of 16384 bytes from test2048.bin into outWin.bin
+Real Time: 00:00:10.051
+User Time: 00:00:00.140
+Sys Time:  00:00:01.953
+Transformed 131072 blocks of 16384 bytes from test2048.bin into outWin.bin
+Real Time: 00:00:09.894
+User Time: 00:00:00.062
+Sys Time:  00:00:01.796
+Transformed 131072 blocks of 16384 bytes from test2048.bin into outWin.bin
+Real Time: 00:00:10.601
+User Time: 00:00:00.171
+Sys Time:  00:00:01.375
+-- TEST 128kb WIN --
+Transformed 16384 blocks of 131072 bytes from test2048.bin into outWin.bin
+Real Time: 00:00:07.917
+User Time: 00:00:00.218
+Sys Time:  00:00:01.296
+Transformed 16384 blocks of 131072 bytes from test2048.bin into outWin.bin
+Real Time: 00:00:08.827
+User Time: 00:00:00.156
+Sys Time:  00:00:01.046
+Transformed 16384 blocks of 131072 bytes from test2048.bin into outWin.bin
+Real Time: 00:00:08.649
+User Time: 00:00:00.078
+Sys Time:  00:00:01.375
+Transformed 16384 blocks of 131072 bytes from test2048.bin into outWin.bin
+Real Time: 00:00:10.062
+User Time: 00:00:00.031
+Sys Time:  00:00:01.343
+Transformed 16384 blocks of 131072 bytes from test2048.bin into outWin.bin
+Real Time: 00:00:08.336
+User Time: 00:00:00.171
+Sys Time:  00:00:01.296
+-- TEST 1024kb WIN --
+Transformed 2048 blocks of 1048576 bytes from test2048.bin into outWin.bin
+Real Time: 00:00:08.972
+User Time: 00:00:00.171
+Sys Time:  00:00:01.437
+Transformed 2048 blocks of 1048576 bytes from test2048.bin into outWin.bin
+Real Time: 00:00:07.094
+User Time: 00:00:00.140
+Sys Time:  00:00:01.234
+Transformed 2048 blocks of 1048576 bytes from test2048.bin into outWin.bin
+Real Time: 00:00:06.504
+User Time: 00:00:00.156
+Sys Time:  00:00:01.375
+Transformed 2048 blocks of 1048576 bytes from test2048.bin into outWin.bin
+Real Time: 00:00:07.150
+User Time: 00:00:00.328
+Sys Time:  00:00:01.390
+Transformed 2048 blocks of 1048576 bytes from test2048.bin into outWin.bin
+Real Time: 00:00:07.236
+User Time: 00:00:00.187
+Sys Time:  00:00:01.250
+-- TEST 2048kb WIN --
+Transformed 1024 blocks of 2097152 bytes from test2048.bin into outWin.bin
+Real Time: 00:00:06.179
+User Time: 00:00:00.109
+Sys Time:  00:00:01.562
+Transformed 1024 blocks of 2097152 bytes from test2048.bin into outWin.bin
+Real Time: 00:00:07.137
+User Time: 00:00:00.171
+Sys Time:  00:00:01.359
+Transformed 1024 blocks of 2097152 bytes from test2048.bin into outWin.bin
+Real Time: 00:00:07.199
+User Time: 00:00:00.312
+Sys Time:  00:00:01.109
+Transformed 1024 blocks of 2097152 bytes from test2048.bin into outWin.bin
+Real Time: 00:00:06.183
+User Time: 00:00:00.125
+Sys Time:  00:00:01.640
+Transformed 1024 blocks of 2097152 bytes from test2048.bin into outWin.bin
+Real Time: 00:00:10.887
+User Time: 00:00:00.125
+Sys Time:  00:00:01.296
+-- TEST 1kb WINMAP --
+Transformed 2097152 blocks of 1024 bytes from test2048.bin into outWinMap.bin
+Real Time: 00:00:08.282
+User Time: 00:00:00.375
+Sys Time:  00:00:01.453
+Transformed 2097152 blocks of 1024 bytes from test2048.bin into outWinMap.bin
+Real Time: 00:00:12.527
+User Time: 00:00:00.453
+Sys Time:  00:00:01.265
+Transformed 2097152 blocks of 1024 bytes from test2048.bin into outWinMap.bin
+Real Time: 00:00:08.740
+User Time: 00:00:00.328
+Sys Time:  00:00:01.265
+Transformed 2097152 blocks of 1024 bytes from test2048.bin into outWinMap.bin
+Real Time: 00:00:08.211
+User Time: 00:00:00.593
+Sys Time:  00:00:01.125
+Transformed 2097152 blocks of 1024 bytes from test2048.bin into outWinMap.bin
+Real Time: 00:00:06.464
+User Time: 00:00:00.484
+Sys Time:  00:00:01.468
+-- TEST 16kb WINMAP --
+Transformed 131072 blocks of 16384 bytes from test2048.bin into outWinMap.bin
+Real Time: 00:00:06.712
+User Time: 00:00:00.453
+Sys Time:  00:00:01.140
+Transformed 131072 blocks of 16384 bytes from test2048.bin into outWinMap.bin
+Real Time: 00:00:06.082
+User Time: 00:00:00.406
+Sys Time:  00:00:01.250
+Transformed 131072 blocks of 16384 bytes from test2048.bin into outWinMap.bin
+Real Time: 00:00:06.486
+User Time: 00:00:00.281
+Sys Time:  00:00:01.375
+Transformed 131072 blocks of 16384 bytes from test2048.bin into outWinMap.bin
+Real Time: 00:00:06.833
+User Time: 00:00:00.546
+Sys Time:  00:00:01.093
+Transformed 131072 blocks of 16384 bytes from test2048.bin into outWinMap.bin
+Real Time: 00:00:05.988
+User Time: 00:00:00.296
+Sys Time:  00:00:01.406
+-- TEST 128kb WINMAP --
+Transformed 16384 blocks of 131072 bytes from test2048.bin into outWinMap.bin
+Real Time: 00:00:06.423
+User Time: 00:00:00.390
+Sys Time:  00:00:01.406
+Transformed 16384 blocks of 131072 bytes from test2048.bin into outWinMap.bin
+Real Time: 00:00:06.471
+User Time: 00:00:00.328
+Sys Time:  00:00:01.421
+Transformed 16384 blocks of 131072 bytes from test2048.bin into outWinMap.bin
+Real Time: 00:00:06.098
+User Time: 00:00:00.437
+Sys Time:  00:00:01.250
+Transformed 16384 blocks of 131072 bytes from test2048.bin into outWinMap.bin
+Real Time: 00:00:06.351
+User Time: 00:00:00.484
+Sys Time:  00:00:01.187
+Transformed 16384 blocks of 131072 bytes from test2048.bin into outWinMap.bin
+Real Time: 00:00:06.438
+User Time: 00:00:00.421
+Sys Time:  00:00:01.140
+-- TEST 1024kb WINMAP --
+Transformed 2048 blocks of 1048576 bytes from test2048.bin into outWinMap.bin
+Real Time: 00:00:06.480
+User Time: 00:00:00.343
+Sys Time:  00:00:01.406
+Transformed 2048 blocks of 1048576 bytes from test2048.bin into outWinMap.bin
+Real Time: 00:00:06.831
+User Time: 00:00:00.312
+Sys Time:  00:00:01.328
+Transformed 2048 blocks of 1048576 bytes from test2048.bin into outWinMap.bin
+Real Time: 00:00:06.038
+User Time: 00:00:00.359
+Sys Time:  00:00:01.234
+Transformed 2048 blocks of 1048576 bytes from test2048.bin into outWinMap.bin
+Real Time: 00:00:07.196
+User Time: 00:00:00.265
+Sys Time:  00:00:01.187
+Transformed 2048 blocks of 1048576 bytes from test2048.bin into outWinMap.bin
+Real Time: 00:00:06.470
+User Time: 00:00:00.312
+Sys Time:  00:00:01.359
+-- TEST 2048kb WINMAP --
+Transformed 1024 blocks of 2097152 bytes from test2048.bin into outWinMap.bin
+Real Time: 00:00:06.493
+User Time: 00:00:00.468
+Sys Time:  00:00:01.265
+Transformed 1024 blocks of 2097152 bytes from test2048.bin into outWinMap.bin
+Real Time: 00:00:10.619
+User Time: 00:00:00.359
+Sys Time:  00:00:01.250
+Transformed 1024 blocks of 2097152 bytes from test2048.bin into outWinMap.bin
+Real Time: 00:00:08.620
+User Time: 00:00:00.421
+Sys Time:  00:00:01.296
+Transformed 1024 blocks of 2097152 bytes from test2048.bin into outWinMap.bin
+Real Time: 00:00:06.141
+User Time: 00:00:00.578
+Sys Time:  00:00:01.171
+Transformed 1024 blocks of 2097152 bytes from test2048.bin into outWinMap.bin
+Real Time: 00:00:08.622
+User Time: 00:00:00.484
+Sys Time:  00:00:01.359

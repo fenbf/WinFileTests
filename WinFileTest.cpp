@@ -170,7 +170,7 @@ void ClearFileCache(const AppParams& params)
 
 	HANDLE hFile = CreateFile(params.m_strFirstFileName.c_str(), GENERIC_READ, /*shared mode*/0, /*security*/nullptr, OPEN_EXISTING, FILE_FLAG_NO_BUFFERING, /*template*/nullptr);
 	if (hFile == INVALID_HANDLE_VALUE)
-		printf("Cannot open file!");
+		std::wcout << L"Cannot open " << params.m_strFirstFileName << L" to clear!\n";
 	else
 		CloseHandle(hFile);
 }

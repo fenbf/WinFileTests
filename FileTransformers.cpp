@@ -51,7 +51,7 @@ bool StdioFileTransformer::Process(TProcessFunc processFunc)
 		blockCount++;
 	}
 
-	Logger::PrintTransformSummary(blockCount, m_strFirstFile, m_strSecondFile);
+	Logger::PrintTransformSummary(blockCount, m_blockSizeInBytes, m_strFirstFile, m_strSecondFile);
 
 	return true;
 }
@@ -90,6 +90,8 @@ bool IoStreamFileTransformer::Process(TProcessFunc processFunc)
 		}
 
 		const auto numRead = static_cast<size_t>(inputStream.gcount());
+		if (numRead == 0)
+			break;
 
 		processFunc(inBuf.get(), outBuf.get(), static_cast<size_t>(numRead));
 
@@ -101,7 +103,7 @@ bool IoStreamFileTransformer::Process(TProcessFunc processFunc)
 		blockCount++;
 	}
 
-	Logger::PrintTransformSummary(blockCount, m_strFirstFile, m_strSecondFile);
+	Logger::PrintTransformSummary(blockCount, m_blockSizeInBytes, m_strFirstFile, m_strSecondFile);
 
 	return true;
 }
@@ -138,7 +140,7 @@ bool WinFileTransformer::Process(TProcessFunc processFunc)
 		blockCount++;
 	}
 
-	Logger::PrintTransformSummary(blockCount, m_strFirstFile, m_strSecondFile);
+	Logger::PrintTransformSummary(blockCount, m_blockSizeInBytes, m_strFirstFile, m_strSecondFile);
 
 	return true;
 }
@@ -234,6 +236,8 @@ bool MappedWinFileTransformer::Process(TProcessFunc processFunc)
 	}
 
 	DoProcess(pIn, ptrInFile, pOut, ptrOutFile, fileSize, m_blockSizeInBytes, processFunc);
+
+	Logger::PrintTransformSummary((SIZE_T)fileSize.QuadPart/m_blockSizeInBytes, m_blockSizeInBytes, m_strFirstFile, m_strSecondFile);
 
 	/* Close all views and handles. */
 	UnmapViewOfFile(ptrOutFile); 

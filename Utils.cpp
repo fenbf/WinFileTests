@@ -14,13 +14,13 @@ namespace Logger
 		std::wcout << L"Problem in transforming the file: " << numRead << L" read vs " << numWritten << L" written!\n";
 	}
 
-	void PrintTransformSummary(size_t blockCount, std::wstring strFirstFile, std::wstring strSecondFile)
+	void PrintTransformSummary(size_t blockCount, size_t blockSizeInBytes, std::wstring strFirstFile, std::wstring strSecondFile)
 	{
-		std::wcout << L"Transformed " << blockCount << L" blocks from " << strFirstFile << L" into " << strSecondFile << L"\n";
+		std::wcout << L"Transformed " << blockCount << L" blocks of " << blockSizeInBytes << L" bytes from " << strFirstFile << L" into " << strSecondFile << L"\n";
 	}
 }
 
-void FILEDeleter::operator()(FILE *pFile)
+void FILEDeleter::operator()(FILE *pFile) const
 {
 	if (pFile)
 		fclose(pFile);
@@ -28,15 +28,28 @@ void FILEDeleter::operator()(FILE *pFile)
 
 FILE_unique_ptr make_fopen(const wchar_t* fname, const wchar_t* mode)
 {
-	FILE *f = nullptr;
-	auto err = _wfopen_s(&f, fname, mode); // by default it's buffered IO, 4k buffer
+	FILE *fileHandle = nullptr;
+	auto err = _wfopen_s(&fileHandle, fname, mode); // by default it's buffered IO, 4k buffer
 	if (err != 0)
 	{
 		Logger::PrintCannotOpenFile(fname);
 		return nullptr;
 	}
 
-	return FILE_unique_ptr(f);
+	return FILE_unique_ptr(fileHandle);
+}
+
+FILE_shared_ptr make_fopen_shared(const wchar_t* fname, const wchar_t* mode)
+{
+	FILE *fileHandle = nullptr;
+	auto err = _wfopen_s(&fileHandle, fname, mode); // by default it's buffered IO, 4k buffer
+	if (err != 0)
+	{
+		Logger::PrintCannotOpenFile(fname);
+		return nullptr;
+	}
+
+	return FILE_shared_ptr(fileHandle, FILEDeleter());
 }
 
 HANDLE_unique_ptr make_HANDLE_unique_ptr(HANDLE handle, std::wstring strMsg)
